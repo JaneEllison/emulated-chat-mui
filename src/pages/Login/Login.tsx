@@ -21,7 +21,7 @@ const Login = () => {
 
   const logIn = useAuthStore(state => state.logIn);
 
-  const handleSubmit = (event: React.FormEvent) => {
+  const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
 
     const enteredEmail = emailRef.current?.value;
@@ -32,12 +32,13 @@ const Login = () => {
         return;
     }
 
-    Api.signIn(enteredEmail, enteredPassword).then(userData => {
-        logIn(userData);
-        navigate('/dashboard');
-    }).catch(() => {
-        setError('Invalid email or password. Please try again.');
-    });
+    try {
+      const userData = await Api.signIn(enteredEmail, enteredPassword);
+      logIn(userData);
+      navigate('/dashboard');
+    } catch {
+      setError('Invalid email or password. Please try again.');
+    }
   };
 
   return (

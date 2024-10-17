@@ -1,33 +1,26 @@
 import React from 'react';
-import {
-  Avatar,
-  Box,
-  Typography,
-  Badge,
-  ListItem,
-  ListItemText,
-} from '@mui/material';
-import { styled } from '@mui/system';
+import {Badge, Box, ListItem, ListItemText, Typography} from '@mui/material';
+import {styled} from '@mui/system';
+import {AvatarInfo, ChatStatus} from "../server/types.ts";
+import {UserAvatar} from "./UserAvatar.tsx";
 
 type UserListItemProps = {
-  title: string;
+  firstName: string;
+  lastName: string;
   text: string;
-  date: string;
-  imageUrl?: string;
-  status: 'active' | 'offline' | 'busy';
+  date?: string;
+  status?: ChatStatus;
   isSelected?: boolean;
-};
+} & AvatarInfo;
 
-const getStatusColor = (status: 'active' | 'offline' | 'busy') => {
+const getStatusColor = (status: ChatStatus) => {
   switch (status) {
-    case 'active':
+    case ChatStatus.Online:
       return '#44b700';
-    case 'offline':
+    case ChatStatus.Offline:
       return '#b0b0b0';
-    case 'busy':
+    case ChatStatus.Busy:
       return '#ff3d00';
-    default:
-      return '#b0b0b0';
   }
 };
 
@@ -41,15 +34,14 @@ const StatusBadge = styled(Badge)(() => ({
 }));
 
 const UserListItem: React.FC<UserListItemProps> = ({
-  title,
+  firstName,
+  lastName,
   text,
   date,
-  imageUrl,
   status,
   isSelected,
+  ...avatarInfo
 }) => {
-  console.log('imageUrl', imageUrl);
-
   return (
     <ListItem
       sx={{
@@ -64,14 +56,20 @@ const UserListItem: React.FC<UserListItemProps> = ({
         },
       }}
     >
-      <StatusBadge
-        overlap='circular'
-        anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
-        variant='dot'
-        sx={{ '.MuiBadge-dot': { backgroundColor: getStatusColor(status) } }}
-      >
-        <Avatar sx={{ width: 48, height: 48 }}>{title.charAt(0)}</Avatar>
-      </StatusBadge>
+      {status != null ?
+        (
+          <StatusBadge
+          overlap='circular'
+          anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+          variant='dot'
+          sx={{ '.MuiBadge-dot': { backgroundColor: getStatusColor(status) } }}
+        >
+          <UserAvatar user={{ ...avatarInfo, lastName, firstName }}></UserAvatar>
+        </StatusBadge>
+        )
+        :
+        <UserAvatar user={{ ...avatarInfo, lastName, firstName }}></UserAvatar>
+      }
       <ListItemText
         primary={
           <Box
@@ -84,7 +82,7 @@ const UserListItem: React.FC<UserListItemProps> = ({
               variant='body1'
               fontWeight='bold'
             >
-              {title}
+              {`${firstName[0]} ${firstName[0]}`}
             </Typography>
             <Typography
               variant='body2'

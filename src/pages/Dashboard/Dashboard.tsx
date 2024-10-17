@@ -1,13 +1,31 @@
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button, Box, Typography, List } from '@mui/material';
 
 import { useAuthStore } from '../../store/authStore.ts';
+import { Api } from "../../server";
 import { UserListItem, ResizableSidebar, MessageItem } from '../../components';
+import {Chat, ChatStatus, Contact} from "../../server/types.ts";
 
 const Dashboard = () => {
   const navigate = useNavigate();
+  const [contacts, setContacts] = useState<Contact[]>([]);
+  const [chats, setChats] = useState<Chat[]>([]);
+
   const logOut = useAuthStore((store) => store.logOut);
   const user = useAuthStore((store) => store.user);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const contactsData = await Api.getContacts();
+      const chatsData = await Api.getChats();
+
+      setContacts(contactsData);
+      setChats(chatsData);
+    };
+
+    fetchData();
+  }, [])
 
   if (!user) {
     navigate('/');
@@ -40,23 +58,15 @@ const Dashboard = () => {
             </Typography>
             <List>
               <UserListItem
-                title='Name Surname'
+                firstName='Alex'
+                lastName='Done'
                 text='Hello world'
                 date='Date'
-                status='active'
+                avatarUrl='avatar-1.jpg'
+                status={ChatStatus.Offline}
+                backgroundColor={null}
+                initialsColor={null}
                 isSelected
-              />
-              <UserListItem
-                title='Name Surname'
-                text='Hello world'
-                date=''
-                status='offline'
-              />
-              <UserListItem
-                title='Name Surname'
-                text='Hello world'
-                date=''
-                status='active'
               />
             </List>
           </Box>
@@ -70,18 +80,18 @@ const Dashboard = () => {
               Contacts
             </Typography>
             <List>
-              <UserListItem
-                title='Name Surname'
-                text='Hello world'
-                date=''
-                status='busy'
-              />
-              <UserListItem
-                title='Name Surname'
-                text='Hello world'
-                date=''
-                status='active'
-              />
+            {contacts.map((contact) => {
+              return (
+                <UserListItem
+                  firstName={contact.firstName}
+                  lastName={contact.lastName}
+                  text={contact.title}
+                  avatarUrl={contact.avatarUrl}
+                  backgroundColor={contact.backgroundColor}
+                  initialsColor={contact.initialsColor}
+                />
+              )
+            })}
             </List>
           </Box>
         </ResizableSidebar>
