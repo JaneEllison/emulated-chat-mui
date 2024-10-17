@@ -3,19 +3,10 @@ export type Contact = {
   firstName: string;
   lastName: string;
   title: string;
-} & AvatarInfo;
-
-export type AvatarInfo =
-  | {
-      avatarUrl: string;
-      initialsColor: null;
-      backgroundColor: null;
-    }
-  | {
-      avatarUrl: null;
-      initialsColor: string;
-      backgroundColor: string;
-    };
+  avatarUrl: string | null;
+  initialsColor: string | null;
+  backgroundColor: string | null;
+};
 
 export type Chat = Contact & {
   lastMessageText: string;

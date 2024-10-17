@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button, Box, Typography, List } from '@mui/material';
 
@@ -59,14 +59,15 @@ const Dashboard = () => {
             <List>
               {chats.map((chat) => (
                 <UserListItem
+                  key={chat.id}
                   firstName={chat.firstName}
                   lastName={chat.lastName}
                   text={chat.lastMessageText}
                   date={chat.lastMessageDate}
-                  avatarUrl={chat.avatarUrl}
                   status={chat.status}
-                  backgroundColor={chat.backgroundColor}
-                  initialsColor={chat.initialsColor}
+                  avatarUrl={chat.avatarUrl ?? undefined}
+                  backgroundColor={chat.backgroundColor ?? undefined}
+                  initialsColor={chat.initialsColor ?? undefined}
                 />
               ))}
             </List>
@@ -83,12 +84,13 @@ const Dashboard = () => {
             <List>
               {contacts.map((contact) => (
                 <UserListItem
+                  key={contact.id}
                   firstName={contact.firstName}
                   lastName={contact.lastName}
                   text={contact.title}
-                  avatarUrl={contact.avatarUrl}
-                  backgroundColor={contact.backgroundColor}
-                  initialsColor={contact.initialsColor}
+                  avatarUrl={contact.avatarUrl ?? undefined}
+                  backgroundColor={contact.backgroundColor ?? undefined}
+                  initialsColor={contact.initialsColor ?? undefined}
                 />
               ))}
             </List>

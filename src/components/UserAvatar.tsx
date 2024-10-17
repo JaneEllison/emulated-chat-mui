@@ -1,14 +1,29 @@
 import { Avatar } from '@mui/material';
-import { AvatarInfo, Contact } from '../server/types.ts';
 
-export function UserAvatar({
-  user,
-}: {
-  user: AvatarInfo & Pick<Contact, 'firstName' | 'lastName'>;
-}) {
+type AvatarProps = {
+  firstName: string;
+  lastName: string;
+  avatarUrl?: string;
+  initialsColor?: string;
+  backgroundColor?: string;
+};
+
+export default function UserAvatar({
+  firstName,
+  lastName,
+  avatarUrl,
+  initialsColor,
+  backgroundColor,
+}: AvatarProps) {
   return (
-    <Avatar src={`/avatars/${user.avatarUrl}`}>
-      {!user.avatarUrl ? `${user.firstName[0]} ${user.lastName[0]}` : ''}
+    <Avatar
+      src={avatarUrl ? `/avatars/${avatarUrl}` : undefined}
+      sx={{
+        color: initialsColor,
+        backgroundColor: backgroundColor,
+      }}
+    >
+      {`${firstName[0]} ${lastName[0]}`}
     </Avatar>
   );
 }

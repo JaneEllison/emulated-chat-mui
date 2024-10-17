@@ -1,9 +1,9 @@
 import React from 'react';
 import { Badge, Box, ListItem, ListItemText, Typography } from '@mui/material';
 import { styled } from '@mui/system';
-import { AvatarInfo, ChatStatus } from '../server/types.ts';
-import { UserAvatar } from './UserAvatar.tsx';
+import { ChatStatus } from '../server/types.ts';
 import { formatISOToDate } from '../utils.tsx';
+import { UserAvatar } from '../components';
 
 type UserListItemProps = {
   firstName: string;
@@ -11,8 +11,11 @@ type UserListItemProps = {
   text: string;
   date?: string;
   status?: ChatStatus;
-  isSelected?: boolean;
-} & AvatarInfo;
+  isSelected: boolean;
+  avatarUrl?: string;
+  initialsColor?: string;
+  backgroundColor?: string;
+};
 
 const getStatusColor = (status: ChatStatus) => {
   switch (status) {
@@ -40,20 +43,34 @@ const UserListItem: React.FC<UserListItemProps> = ({
   text,
   date,
   status,
-  isSelected,
-  ...avatarInfo
+  isSelected = false,
+  avatarUrl,
+  initialsColor,
+  backgroundColor,
 }) => {
+  const avatar = () => {
+    return (
+      <UserAvatar
+        avatarUrl={avatarUrl}
+        backgroundColor={backgroundColor}
+        initialsColor={initialsColor}
+        firstName={firstName}
+        lastName={lastName}
+      ></UserAvatar>
+    );
+  };
+
   return (
     <ListItem
       sx={{
-        bgColor: isSelected ? '#8b95f6' : '#fff',
+        bgcolor: isSelected ? '#8b95f6' : '#fff',
         borderRadius: '10px',
         py: '10px',
         px: '15px',
         cursor: 'pointer',
         transition: 'background-color 0.3s',
         '&:hover': {
-          bgColor: !isSelected ? '#e4edff' : '#8b95f6',
+          bgcolor: !isSelected ? '#e4edff' : '#8b95f6',
         },
       }}
     >
@@ -64,12 +81,10 @@ const UserListItem: React.FC<UserListItemProps> = ({
           variant="dot"
           sx={{ '.MuiBadge-dot': { backgroundColor: getStatusColor(status) } }}
         >
-          <UserAvatar
-            user={{ ...avatarInfo, lastName, firstName }}
-          ></UserAvatar>
+          {avatar()}
         </StatusBadge>
       ) : (
-        <UserAvatar user={{ ...avatarInfo, lastName, firstName }}></UserAvatar>
+        avatar()
       )}
       <ListItemText
         primary={
@@ -83,7 +98,7 @@ const UserListItem: React.FC<UserListItemProps> = ({
               variant="body1"
               fontWeight="bold"
             >
-              {`${firstName[0]} ${firstName[0]}`}
+              {`${firstName} ${lastName}`}
             </Typography>
             {date && (
               <Typography
