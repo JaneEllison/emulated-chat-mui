@@ -1,9 +1,8 @@
-.DS_*
-*.log
-logs
-**/*.backup.*
-**/*.back.*
 .idea
+.vscode/*
 
 node_modules
-bower_components
+dist
+
+tsconfig.app.tsbuildinfo
+tsconfig.node.tsbuildinfo

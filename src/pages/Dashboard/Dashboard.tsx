@@ -2,7 +2,6 @@ import { useNavigate } from 'react-router-dom';
 import { Button, Box, Typography, List } from '@mui/material';
 
 import { useAuthStore } from '../../store/authStore.ts';
-import { UserAvatar } from '../../components/UserAvatar.tsx';
 import { UserListItem, ResizableSidebar, MessageItem } from '../../components';
 
 const Dashboard = () => {
@@ -10,7 +9,10 @@ const Dashboard = () => {
   const logOut = useAuthStore((store) => store.logOut);
   const user = useAuthStore((store) => store.user);
 
-  if (!user) return navigate('/');
+  if (!user) {
+    navigate('/');
+    return null;
+  }
 
   const handleLogout = () => {
     logOut();
@@ -106,9 +108,9 @@ const Dashboard = () => {
         </Box>
       </Box>
 
-      {/* <Button variant='contained' onClick={handleLogout}>
+      <Button variant='contained' onClick={handleLogout}>
         Logout
-      </Button> */}
+      </Button>
     </>
   );
 };
