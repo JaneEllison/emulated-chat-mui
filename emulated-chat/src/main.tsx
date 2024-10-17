@@ -18,7 +18,6 @@ createRoot(document.getElementById('root')!).render(
             </ProtectedRoute>
           }
         />
-        <Route path='*' element={<Login />} />
       </Routes>
     </BrowserRouter>
   </StrictMode>
