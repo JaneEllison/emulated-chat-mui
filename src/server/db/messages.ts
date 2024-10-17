@@ -1,3 +1,3 @@
-import { Message } from "../types.ts";
+import { Message } from '../types.ts';
 
 export const messages: Message[] = [];

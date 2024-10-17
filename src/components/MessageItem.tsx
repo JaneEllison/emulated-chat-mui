@@ -56,13 +56,13 @@ const MessageItem: React.FC<MessageItemProps> = ({
             boxShadow: 1,
           }}
         >
-          <Typography variant='body1' color={textColor}>
+          <Typography variant="body1" color={textColor}>
             {text}
           </Typography>
         </Box>
         <Typography
-          variant='caption'
-          color='textPrimary'
+          variant="caption"
+          color="textPrimary"
           sx={{ display: 'block', marginTop: '5px', opacity: 0.7 }}
         >
           {timestamp}

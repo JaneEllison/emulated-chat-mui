@@ -1,9 +1,9 @@
 import React from 'react';
-import {Badge, Box, ListItem, ListItemText, Typography} from '@mui/material';
-import {styled} from '@mui/system';
-import {AvatarInfo, ChatStatus} from "../server/types.ts";
-import {UserAvatar} from "./UserAvatar.tsx";
-import {formatISOToDate} from "../utils.tsx";
+import { Badge, Box, ListItem, ListItemText, Typography } from '@mui/material';
+import { styled } from '@mui/system';
+import { AvatarInfo, ChatStatus } from '../server/types.ts';
+import { UserAvatar } from './UserAvatar.tsx';
+import { formatISOToDate } from '../utils.tsx';
 
 type UserListItemProps = {
   firstName: string;
@@ -57,48 +57,47 @@ const UserListItem: React.FC<UserListItemProps> = ({
         },
       }}
     >
-      {status != null ?
-        (
-          <StatusBadge
-          overlap='circular'
+      {status != null ? (
+        <StatusBadge
+          overlap="circular"
           anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
-          variant='dot'
+          variant="dot"
           sx={{ '.MuiBadge-dot': { backgroundColor: getStatusColor(status) } }}
         >
-          <UserAvatar user={{ ...avatarInfo, lastName, firstName }}></UserAvatar>
+          <UserAvatar
+            user={{ ...avatarInfo, lastName, firstName }}
+          ></UserAvatar>
         </StatusBadge>
-        )
-        :
+      ) : (
         <UserAvatar user={{ ...avatarInfo, lastName, firstName }}></UserAvatar>
-      }
+      )}
       <ListItemText
         primary={
           <Box
-            display='flex'
-            justifyContent='space-between'
-            alignItems='center'
+            display="flex"
+            justifyContent="space-between"
+            alignItems="center"
           >
             <Typography
               color={isSelected ? 'white' : 'textPrimary'}
-              variant='body1'
-              fontWeight='bold'
+              variant="body1"
+              fontWeight="bold"
             >
               {`${firstName[0]} ${firstName[0]}`}
             </Typography>
             {date && (
-                <Typography
-                  variant='body2'
-                  color={isSelected ? 'white' : 'textSecondary'}
-                >
-                  {formatISOToDate(date)}
-                </Typography>
-              )
-            }
+              <Typography
+                variant="body2"
+                color={isSelected ? 'white' : 'textSecondary'}
+              >
+                {formatISOToDate(date)}
+              </Typography>
+            )}
           </Box>
         }
         secondary={
           <Typography
-            variant='body2'
+            variant="body2"
             color={isSelected ? 'white' : 'textSecondary'}
           >
             {text}

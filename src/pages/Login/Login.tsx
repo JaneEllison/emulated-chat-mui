@@ -10,8 +10,8 @@ import {
   Alert,
 } from '@mui/material';
 import LockIcon from '@mui/icons-material/Lock';
-import { Api } from "../../server";
-import { useAuthStore } from "../../store/authStore.ts";
+import { Api } from '../../server';
+import { useAuthStore } from '../../store/authStore.ts';
 
 const Login = () => {
   const emailRef = useRef<HTMLInputElement>(null);
@@ -19,7 +19,7 @@ const Login = () => {
   const [error, setError] = useState('');
   const navigate = useNavigate();
 
-  const logIn = useAuthStore(state => state.logIn);
+  const logIn = useAuthStore((state) => state.logIn);
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
@@ -28,8 +28,8 @@ const Login = () => {
     const enteredPassword = passwordRef.current?.value;
 
     if (!enteredEmail || !enteredPassword) {
-        setError('Please enter email and password');
-        return;
+      setError('Please enter email and password');
+      return;
     }
 
     try {
@@ -43,7 +43,7 @@ const Login = () => {
 
   return (
     <Box
-      component='main'
+      component="main"
       sx={{
         display: 'flex',
         alignItems: 'center',
@@ -53,7 +53,7 @@ const Login = () => {
         backgroundColor: '#f0f0f8',
       }}
     >
-      <Container component='section' maxWidth='xs'>
+      <Container component="section" maxWidth="xs">
         <Paper
           elevation={2}
           square={false}
@@ -65,49 +65,49 @@ const Login = () => {
             justifyContent: 'center',
           }}
         >
-          <LockIcon color='primary' fontSize='large' sx={{ mb: 1 }} />
-          <Typography variant='h5' align='center'>
+          <LockIcon color="primary" fontSize="large" sx={{ mb: 1 }} />
+          <Typography variant="h5" align="center">
             Sign In
           </Typography>
           <Box
-            component='form'
+            component="form"
             noValidate
             sx={{ mt: 1 }}
             onSubmit={handleSubmit}
           >
             <TextField
-              id='email'
+              id="email"
               inputRef={emailRef}
-              label='Email Address'
-              name='email'
-              type='text'
-              margin='normal'
+              label="Email Address"
+              name="email"
+              type="text"
+              margin="normal"
               required
               fullWidth
-              autoComplete='email'
+              autoComplete="email"
               autoFocus
             />
             <TextField
-              id='password'
+              id="password"
               inputRef={passwordRef}
-              label='Password'
-              name='password'
-              type='password'
-              margin='normal'
+              label="Password"
+              name="password"
+              type="password"
+              margin="normal"
               required
               fullWidth
-              autoComplete='current-password'
+              autoComplete="current-password"
             />
             {error && (
-              <Alert severity='error' sx={{ mt: 2 }}>
+              <Alert severity="error" sx={{ mt: 2 }}>
                 {error}
               </Alert>
             )}
             <Button
-              type='submit'
+              type="submit"
               fullWidth
-              variant='contained'
-              color='primary'
+              variant="contained"
+              color="primary"
               sx={{ mt: 3, mb: 2 }}
             >
               Sign In

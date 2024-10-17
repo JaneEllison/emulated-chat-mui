@@ -33,7 +33,7 @@ const ResizableSidebar: React.FC<ResizableSidebarProps> = ({ children }) => {
   };
 
   return (
-    <Box display='flex' height='100vh'>
+    <Box display="flex" height="100vh">
       <Box
         ref={sidebarRef}
         sx={{

@@ -3,9 +3,9 @@ import { useNavigate } from 'react-router-dom';
 import { Button, Box, Typography, List } from '@mui/material';
 
 import { useAuthStore } from '../../store/authStore.ts';
-import { Api } from "../../server";
+import { Api } from '../../server';
 import { UserListItem, ResizableSidebar, MessageItem } from '../../components';
-import {Chat, Contact} from "../../server/types.ts";
+import { Chat, Contact } from '../../server/types.ts';
 
 const Dashboard = () => {
   const navigate = useNavigate();
@@ -25,7 +25,7 @@ const Dashboard = () => {
     };
 
     fetchData();
-  }, [])
+  }, []);
 
   if (!user) {
     navigate('/');
@@ -49,10 +49,10 @@ const Dashboard = () => {
         <ResizableSidebar>
           <Box mb={4}>
             <Typography
-              variant='h5'
-              fontWeight='bold'
+              variant="h5"
+              fontWeight="bold"
               gutterBottom
-              color='primary'
+              color="primary"
             >
               Chats
             </Typography>
@@ -69,20 +69,19 @@ const Dashboard = () => {
                   initialsColor={chat.initialsColor}
                 />
               ))}
-
             </List>
           </Box>
           <Box>
             <Typography
-              variant='h5'
-              fontWeight='bold'
+              variant="h5"
+              fontWeight="bold"
               gutterBottom
-              color='primary'
+              color="primary"
             >
               Contacts
             </Typography>
             <List>
-            {contacts.map((contact) => (
+              {contacts.map((contact) => (
                 <UserListItem
                   firstName={contact.firstName}
                   lastName={contact.lastName}
@@ -91,8 +90,7 @@ const Dashboard = () => {
                   backgroundColor={contact.backgroundColor}
                   initialsColor={contact.initialsColor}
                 />
-              )
-            )}
+              ))}
             </List>
           </Box>
         </ResizableSidebar>
@@ -106,20 +104,20 @@ const Dashboard = () => {
             marginX: 'auto',
           }}
         >
-          <MessageItem isOutgoing={false} text='loremlorem' timestamp='12:23' />
+          <MessageItem isOutgoing={false} text="loremlorem" timestamp="12:23" />
           <MessageItem
             isOutgoing={true}
-            text='loremlorem loremlorem loremlo remlo remloreml oremlore loremlo remlor emloreml orem'
+            text="loremlorem loremlorem loremlo remlo remloreml oremlore loremlo remlor emloreml orem"
           />
           <MessageItem
             isOutgoing={true}
-            text='loremlorem loremlorem loremlo remlo remloreml oremlore loremlo remlor emloreml orem'
-            timestamp='12:23'
+            text="loremlorem loremlorem loremlo remlo remloreml oremlore loremlo remlor emloreml orem"
+            timestamp="12:23"
           />
         </Box>
       </Box>
 
-      <Button variant='contained' onClick={handleLogout}>
+      <Button variant="contained" onClick={handleLogout}>
         Logout
       </Button>
     </>
