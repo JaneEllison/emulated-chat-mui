@@ -23,7 +23,7 @@ export type Chat = Contact & {
 
 export enum ChatStatus {
     Offline,
-    Active,
+    Online,
     Busy
 }
 

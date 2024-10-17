@@ -6,11 +6,11 @@ export const testCredentials = {
 }
 
 export const testAccount: Contact = {
-    id: 1,
+    id: 0,
     firstName: "Nastya",
     lastName: "Sekerich",
     title: "Frontend Engineer",
-    avatarUrl: "",
+    avatarUrl: "avatar-9.jpg",
     initialsColor: null,
     backgroundColor: null
 }
