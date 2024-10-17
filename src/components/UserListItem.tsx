@@ -11,7 +11,7 @@ type UserListItemProps = {
   text: string;
   date?: string;
   status?: ChatStatus;
-  isSelected: boolean;
+  isSelected?: boolean;
   avatarUrl?: string;
   initialsColor?: string;
   backgroundColor?: string;

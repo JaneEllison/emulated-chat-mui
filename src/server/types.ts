@@ -3,9 +3,9 @@ export type Contact = {
   firstName: string;
   lastName: string;
   title: string;
-  avatarUrl: string | null;
-  initialsColor: string | null;
-  backgroundColor: string | null;
+  avatarUrl?: string;
+  initialsColor?: string;
+  backgroundColor?: string;
 };
 
 export type Chat = Contact & {

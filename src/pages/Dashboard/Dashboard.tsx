@@ -4,7 +4,7 @@ import { Button, Box, Typography, List } from '@mui/material';
 
 import { useAuthStore } from '../../store/authStore.ts';
 import { Api } from '../../server';
-import { UserListItem, ResizableSidebar, MessageItem } from '../../components';
+import { UserListItem, ResizableSidebar, MessageItem, UserAvatar } from '../../components';
 import { Chat, Contact } from '../../server/types.ts';
 
 const Dashboard = () => {
@@ -47,6 +47,31 @@ const Dashboard = () => {
         }}
       >
         <ResizableSidebar>
+          <Box
+            sx={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+              padding: '10px',
+              backgroundColor: '#f5f5f5',
+              position: 'sticky',
+              top: 0,
+              zIndex: 1000,
+              boxShadow: '0 2px 5px rgba(0, 0, 0, 0.1)',
+            }}
+          >
+            <UserAvatar
+              avatarUrl={user.avatarUrl}
+              backgroundColor={user.backgroundColor}
+              initialsColor={user.initialsColor}
+              firstName={user.firstName}
+              lastName={user.lastName}
+            ></UserAvatar>
+            {/* Кнопка выхода */}
+            <Button variant="contained" color="error">
+              Log Out
+            </Button>
+          </Box>
           <Box mb={4}>
             <Typography
               variant="h5"
