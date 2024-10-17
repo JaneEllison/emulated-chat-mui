@@ -3,6 +3,7 @@ import {Badge, Box, ListItem, ListItemText, Typography} from '@mui/material';
 import {styled} from '@mui/system';
 import {AvatarInfo, ChatStatus} from "../server/types.ts";
 import {UserAvatar} from "./UserAvatar.tsx";
+import {formatISOToDate} from "../utils.tsx";
 
 type UserListItemProps = {
   firstName: string;
@@ -45,14 +46,14 @@ const UserListItem: React.FC<UserListItemProps> = ({
   return (
     <ListItem
       sx={{
-        bgcolor: isSelected ? '#8b95f6' : '#fff',
+        bgColor: isSelected ? '#8b95f6' : '#fff',
         borderRadius: '10px',
         py: '10px',
         px: '15px',
         cursor: 'pointer',
         transition: 'background-color 0.3s',
         '&:hover': {
-          bgcolor: !isSelected ? '#e4edff' : '#8b95f6',
+          bgColor: !isSelected ? '#e4edff' : '#8b95f6',
         },
       }}
     >
@@ -84,12 +85,15 @@ const UserListItem: React.FC<UserListItemProps> = ({
             >
               {`${firstName[0]} ${firstName[0]}`}
             </Typography>
-            <Typography
-              variant='body2'
-              color={isSelected ? 'white' : 'textSecondary'}
-            >
-              {date}
-            </Typography>
+            {date && (
+                <Typography
+                  variant='body2'
+                  color={isSelected ? 'white' : 'textSecondary'}
+                >
+                  {formatISOToDate(date)}
+                </Typography>
+              )
+            }
           </Box>
         }
         secondary={

@@ -5,7 +5,7 @@ import { Button, Box, Typography, List } from '@mui/material';
 import { useAuthStore } from '../../store/authStore.ts';
 import { Api } from "../../server";
 import { UserListItem, ResizableSidebar, MessageItem } from '../../components';
-import {Chat, ChatStatus, Contact} from "../../server/types.ts";
+import {Chat, Contact} from "../../server/types.ts";
 
 const Dashboard = () => {
   const navigate = useNavigate();
@@ -57,17 +57,19 @@ const Dashboard = () => {
               Chats
             </Typography>
             <List>
-              <UserListItem
-                firstName='Alex'
-                lastName='Done'
-                text='Hello world'
-                date='Date'
-                avatarUrl='avatar-1.jpg'
-                status={ChatStatus.Offline}
-                backgroundColor={null}
-                initialsColor={null}
-                isSelected
-              />
+              {chats.map((chat) => (
+                <UserListItem
+                  firstName={chat.firstName}
+                  lastName={chat.lastName}
+                  text={chat.lastMessageText}
+                  date={chat.lastMessageDate}
+                  avatarUrl={chat.avatarUrl}
+                  status={chat.status}
+                  backgroundColor={chat.backgroundColor}
+                  initialsColor={chat.initialsColor}
+                />
+              ))}
+
             </List>
           </Box>
           <Box>
@@ -80,8 +82,7 @@ const Dashboard = () => {
               Contacts
             </Typography>
             <List>
-            {contacts.map((contact) => {
-              return (
+            {contacts.map((contact) => (
                 <UserListItem
                   firstName={contact.firstName}
                   lastName={contact.lastName}
@@ -91,7 +92,7 @@ const Dashboard = () => {
                   initialsColor={contact.initialsColor}
                 />
               )
-            })}
+            )}
             </List>
           </Box>
         </ResizableSidebar>
