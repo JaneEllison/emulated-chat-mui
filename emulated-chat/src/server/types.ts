@@ -5,7 +5,7 @@ export type Contact = {
     title: string;
 } & AvatarInfo;
 
-type AvatarInfo = {
+export type AvatarInfo = {
     avatarUrl: string;
     initialsColor: null;
     backgroundColor: null;

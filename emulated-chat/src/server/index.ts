@@ -12,7 +12,7 @@ export const Api = {
         return Promise.resolve(chats);
     },
     getChatMessages(chatId: number): Promise<Message[]> {
-        const chatMessages = messages.filter(m => [chatId, testAccount.id].includes(m.senderId));
+        const chatMessages = messages.filter(m => m.chatId === chatId);
 
         return Promise.resolve(chatMessages)
     },

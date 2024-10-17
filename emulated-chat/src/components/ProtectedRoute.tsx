@@ -1,12 +1,13 @@
 import React from 'react';
 import { Navigate } from 'react-router-dom';
+import { useAuthStore } from "../store/authStore.ts";
 
 const ProtectedRoute: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
-  const isLoggedIn = sessionStorage.getItem('isLoggedIn') === 'true';
+  const isAuthorized = useAuthStore(store => store.isAuthorized)
 
-  if (!isLoggedIn) {
+  if (!isAuthorized) {
     return <Navigate to='/' />;
   }
 

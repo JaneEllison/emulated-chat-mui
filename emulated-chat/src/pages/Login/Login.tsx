@@ -10,10 +10,8 @@ import {
   Alert,
 } from '@mui/material';
 import LockIcon from '@mui/icons-material/Lock';
-
-// TODO: Move to the .env file
-const validEmail = '1';
-const validPassword = '1';
+import { Api } from "../../server";
+import { useAuthStore } from "../../store/authStore.ts";
 
 const Login = () => {
   const emailRef = useRef<HTMLInputElement>(null);
@@ -21,19 +19,25 @@ const Login = () => {
   const [error, setError] = useState('');
   const navigate = useNavigate();
 
+  const logIn = useAuthStore(state => state.logIn);
+
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
     const enteredEmail = emailRef.current?.value;
     const enteredPassword = passwordRef.current?.value;
 
-    if (enteredEmail === validEmail && enteredPassword === validPassword) {
-      sessionStorage.setItem('isLoggedIn', 'true');
-
-      navigate('/dashboard');
-    } else {
-      setError('Invalid email or password. Please try again.');
+    if (!enteredEmail || !enteredPassword) {
+        setError('Please enter email and password');
+        return;
     }
+
+    Api.signIn(enteredEmail, enteredPassword).then(userData => {
+        logIn(userData);
+        navigate('/dashboard');
+    }).catch(() => {
+        setError('Invalid email or password. Please try again.');
+    });
   };
 
   return (
