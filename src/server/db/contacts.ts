@@ -70,9 +70,9 @@ export const contacts: Contact[] = [
   },
   {
     id: 10,
-    firstName: 'Sophia',
+    firstName: 'SophiaSophiaSophiaSophiaSophia',
     lastName: 'Walker',
-    title: 'HR Specialist',
+    title: 'HR SpecialistSophiaSophiaSophiaSophiaSophiaSophiaSophia',
     initialsColor: '#CC4E00',
     backgroundColor: '#FFD19A',
   },

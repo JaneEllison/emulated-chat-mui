@@ -111,6 +111,12 @@ const UserListItem: React.FC<UserListItemProps> = ({
               }
               variant="body1"
               fontWeight="bold"
+              noWrap
+              sx={{
+                overflow: 'hidden',
+                textOverflow: 'ellipsis',
+                whiteSpace: 'nowrap',
+              }}
             >
               {`${firstName} ${lastName}`}
             </Typography>
@@ -128,6 +134,12 @@ const UserListItem: React.FC<UserListItemProps> = ({
           <Typography
             variant="body2"
             color={isSelected ? 'white' : 'textSecondary'}
+            sx={{
+              overflow: 'hidden',
+              textOverflow: 'ellipsis',
+              lineBreak: 'anywhere',
+              WebkitLineClamp: 2,
+            }}
           >
             {text}
           </Typography>
