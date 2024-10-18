@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, Typography } from '@mui/material';
+import { Box, Typography, useTheme } from '@mui/material';
 import { Contact } from '../server/types.ts';
 import { UserAvatar } from '../components';
 
@@ -17,10 +17,13 @@ const MessageItem: React.FC<MessageItemProps> = ({
   timestamp,
   sender,
 }) => {
-  const backgroundColor = isOutgoing ? '#8b95f6' : '#fff';
-  const textColor = isOutgoing ? '#fff' : 'textPrimary';
+  const theme = useTheme();
+  const backgroundColor = isOutgoing ? theme.palette.primary.main : '#fff';
+  const textColor = isOutgoing
+    ? theme.palette.primary.contrastText
+    : 'secondary';
 
-  const avatar = () => (
+  const renderAvatar = () => (
     <UserAvatar
       firstName={sender.firstName}
       lastName={sender.lastName}
@@ -39,7 +42,7 @@ const MessageItem: React.FC<MessageItemProps> = ({
         mb: 1,
       }}
     >
-      {!isOutgoing && <Box mr={'10px'}>{avatar()}</Box>}
+      {!isOutgoing && <Box mr={'10px'}>{renderAvatar()}</Box>}
 
       <Box
         sx={{
@@ -54,7 +57,6 @@ const MessageItem: React.FC<MessageItemProps> = ({
             padding: '10px 15px',
             borderRadius: '10px',
             backgroundColor: backgroundColor,
-            color: '#fff',
             textAlign: isOutgoing ? 'right' : 'left',
             boxShadow: 1,
           }}
@@ -65,14 +67,14 @@ const MessageItem: React.FC<MessageItemProps> = ({
         </Box>
         <Typography
           variant="caption"
-          color="textPrimary"
+          color={theme.palette.primary.dark}
           sx={{ display: 'block', marginTop: '5px', opacity: 0.7 }}
         >
           {timestamp}
         </Typography>
       </Box>
 
-      {isOutgoing && <Box ml={'10px'}>{avatar()}</Box>}
+      {isOutgoing && <Box ml={'10px'}>{renderAvatar()}</Box>}
     </Box>
   );
 };

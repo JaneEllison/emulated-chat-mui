@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Button, Box, Typography, List } from '@mui/material';
+import { Button, Box, Typography, List, useTheme } from '@mui/material';
 
 import { useAuthStore } from '../../store/authStore.ts';
 import { Api } from '../../server';
@@ -10,6 +10,7 @@ import { ChatView } from './ChatView.tsx';
 
 const Dashboard = () => {
   const navigate = useNavigate();
+  const theme = useTheme();
   const [contacts, setContacts] = useState<Contact[]>([]);
   const [chats, setChats] = useState<Chat[]>([]);
   const [activeChat, setActiveChat] = useState<Chat | null>(null);
@@ -46,7 +47,7 @@ const Dashboard = () => {
         sx={{
           display: 'flex',
           height: '100%',
-          backgroundColor: '#f5f5f5',
+          backgroundColor: theme.palette.background.default,
         }}
       >
         <ResizableSidebar>
@@ -73,11 +74,7 @@ const Dashboard = () => {
                 firstName={user.firstName}
                 lastName={user.lastName}
               />
-              <Typography
-                color={'textPrimary'}
-                variant="body1"
-                fontWeight="bold"
-              >
+              <Typography color="secondary" variant="body1" fontWeight="bold">
                 {`${user.firstName} ${user.lastName}`}
               </Typography>
             </Box>

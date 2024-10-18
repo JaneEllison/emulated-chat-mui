@@ -1,5 +1,12 @@
 import React from 'react';
-import { Badge, Box, ListItem, ListItemText, Typography } from '@mui/material';
+import {
+  Badge,
+  Box,
+  ListItem,
+  ListItemText,
+  Typography,
+  useTheme,
+} from '@mui/material';
 import { styled } from '@mui/system';
 import { ChatStatus } from '../server/types.ts';
 import { formatISOToDate } from '../utils.tsx';
@@ -50,29 +57,31 @@ const UserListItem: React.FC<UserListItemProps> = ({
   backgroundColor,
   onClick = () => {},
 }) => {
-  const avatar = () => {
-    return (
-      <UserAvatar
-        avatarUrl={avatarUrl}
-        backgroundColor={backgroundColor}
-        initialsColor={initialsColor}
-        firstName={firstName}
-        lastName={lastName}
-      ></UserAvatar>
-    );
-  };
+  const theme = useTheme();
+
+  const renderAvatar = () => (
+    <UserAvatar
+      avatarUrl={avatarUrl}
+      backgroundColor={backgroundColor}
+      initialsColor={initialsColor}
+      firstName={firstName}
+      lastName={lastName}
+    ></UserAvatar>
+  );
 
   return (
     <ListItem
       sx={{
-        bgcolor: isSelected ? '#8b95f6' : '#fff',
+        bgcolor: isSelected ? theme.palette.background.paper : '#fff',
         borderRadius: '10px',
         py: 1.5,
         px: 2,
         cursor: 'pointer',
         transition: 'background-color 0.3s',
         '&:hover': {
-          bgcolor: !isSelected ? '#e4edff' : '#8b95f6',
+          bgcolor: !isSelected
+            ? theme.palette.primary.light
+            : theme.palette.background.paper,
         },
       }}
       onClick={onClick}
@@ -84,10 +93,10 @@ const UserListItem: React.FC<UserListItemProps> = ({
           variant="dot"
           sx={{ '.MuiBadge-dot': { backgroundColor: getStatusColor(status) } }}
         >
-          {avatar()}
+          {renderAvatar()}
         </StatusBadge>
       ) : (
-        avatar()
+        renderAvatar()
       )}
       <ListItemText
         primary={
@@ -97,7 +106,9 @@ const UserListItem: React.FC<UserListItemProps> = ({
             alignItems="center"
           >
             <Typography
-              color={isSelected ? 'white' : 'textPrimary'}
+              color={
+                isSelected ? theme.palette.primary.contrastText : 'secondary'
+              }
               variant="body1"
               fontWeight="bold"
             >
