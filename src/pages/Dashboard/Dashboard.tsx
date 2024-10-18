@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button, Box, Typography, List } from '@mui/material';
 
@@ -53,72 +53,85 @@ const Dashboard = () => {
               justifyContent: 'space-between',
               alignItems: 'center',
               padding: '10px',
-              backgroundColor: '#f5f5f5',
+              backgroundColor: '#fff',
               position: 'sticky',
               top: 0,
               zIndex: 1000,
-              boxShadow: '0 2px 5px rgba(0, 0, 0, 0.1)',
+              py: 3,
+              px: 4,
+              boxShadow: '0 2px 8px rgba(0, 0, 0, 0.1)',
             }}
           >
-            <UserAvatar
-              avatarUrl={user.avatarUrl}
-              backgroundColor={user.backgroundColor}
-              initialsColor={user.initialsColor}
-              firstName={user.firstName}
-              lastName={user.lastName}
-            ></UserAvatar>
-            {/* Кнопка выхода */}
-            <Button variant="contained" color="error">
-              Log Out
+            <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+              <UserAvatar
+                avatarUrl={user.avatarUrl}
+                backgroundColor={user.backgroundColor}
+                initialsColor={user.initialsColor}
+                firstName={user.firstName}
+                lastName={user.lastName}
+              />
+              <Typography
+                color={'textPrimary'}
+                variant="body1"
+                fontWeight="bold"
+              >
+                {`${user.firstName} ${user.lastName}`}
+              </Typography>
+            </Box>
+
+            <Button variant="contained" onClick={handleLogout}>
+              Logout
             </Button>
           </Box>
-          <Box mb={4}>
-            <Typography
-              variant="h5"
-              fontWeight="bold"
-              gutterBottom
-              color="primary"
-            >
-              Chats
-            </Typography>
-            <List>
-              {chats.map((chat) => (
-                <UserListItem
-                  key={chat.id}
-                  firstName={chat.firstName}
-                  lastName={chat.lastName}
-                  text={chat.lastMessageText}
-                  date={chat.lastMessageDate}
-                  status={chat.status}
-                  avatarUrl={chat.avatarUrl ?? undefined}
-                  backgroundColor={chat.backgroundColor ?? undefined}
-                  initialsColor={chat.initialsColor ?? undefined}
-                />
-              ))}
-            </List>
-          </Box>
-          <Box>
-            <Typography
-              variant="h5"
-              fontWeight="bold"
-              gutterBottom
-              color="primary"
-            >
-              Contacts
-            </Typography>
-            <List>
-              {contacts.map((contact) => (
-                <UserListItem
-                  key={contact.id}
-                  firstName={contact.firstName}
-                  lastName={contact.lastName}
-                  text={contact.title}
-                  avatarUrl={contact.avatarUrl ?? undefined}
-                  backgroundColor={contact.backgroundColor ?? undefined}
-                  initialsColor={contact.initialsColor ?? undefined}
-                />
-              ))}
-            </List>
+          <Box p={2}>
+            <Box mb={4} mt={2}>
+              <Typography
+                variant="h5"
+                fontWeight="bold"
+                gutterBottom
+                color="primary"
+              >
+                Chats
+              </Typography>
+              <List>
+                {chats.map((chat) => (
+                  <UserListItem
+                    key={chat.id}
+                    firstName={chat.firstName}
+                    lastName={chat.lastName}
+                    text={chat.lastMessageText}
+                    date={chat.lastMessageDate}
+                    status={chat.status}
+                    avatarUrl={chat.avatarUrl ?? undefined}
+                    backgroundColor={chat.backgroundColor ?? undefined}
+                    initialsColor={chat.initialsColor ?? undefined}
+                  />
+                ))}
+              </List>
+            </Box>
+            <Box>
+              <Typography
+                variant="h5"
+                fontWeight="bold"
+                gutterBottom
+                color="primary"
+              >
+                Contacts
+              </Typography>
+              <List>
+                {contacts.map((contact) => (
+                  <UserListItem
+                    key={contact.id}
+                    firstName={contact.firstName}
+                    lastName={contact.lastName}
+                    text={contact.title}
+                    avatarUrl={contact.avatarUrl ?? undefined}
+                    backgroundColor={contact.backgroundColor ?? undefined}
+                    initialsColor={contact.initialsColor ?? undefined}
+                  />
+                ))}
+              </List>
+            </Box>
           </Box>
         </ResizableSidebar>
         <Box
@@ -143,10 +156,6 @@ const Dashboard = () => {
           />
         </Box>
       </Box>
-
-      <Button variant="contained" onClick={handleLogout}>
-        Logout
-      </Button>
     </>
   );
 };

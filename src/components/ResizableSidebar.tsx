@@ -30,6 +30,7 @@ const ResizableSidebar: React.FC<ResizableSidebarProps> = ({ children }) => {
   const handleMouseUp = () => {
     document.removeEventListener('mousemove', handleMouseMove);
     document.removeEventListener('mouseup', handleMouseUp);
+    document.body.style.userSelect = 'auto';
   };
 
   return (
@@ -42,7 +43,6 @@ const ResizableSidebar: React.FC<ResizableSidebarProps> = ({ children }) => {
           maxWidth: MAX_WIDTH,
           backgroundColor: '#fff',
           overflowY: 'auto',
-          p: 2,
           boxSizing: 'border-box',
           position: 'relative',
         }}

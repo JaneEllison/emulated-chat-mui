@@ -65,8 +65,8 @@ const UserListItem: React.FC<UserListItemProps> = ({
       sx={{
         bgcolor: isSelected ? '#8b95f6' : '#fff',
         borderRadius: '10px',
-        py: '10px',
-        px: '15px',
+        py: 1.5,
+        px: 2,
         cursor: 'pointer',
         transition: 'background-color 0.3s',
         '&:hover': {
