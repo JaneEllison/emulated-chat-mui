@@ -10,82 +10,107 @@ type MessageItemProps = {
   timestamp?: string;
   isLastMessage?: boolean;
   isFirstMessage?: boolean;
+  highlightText?: string;
   avatarUrl?: string;
   sender: Contact;
 };
 
-const MessageItem: React.FC<MessageItemProps> = ({
-  text,
-  isOutgoing,
-  timestamp,
-  isLastMessage,
-  isFirstMessage,
-  sender,
-}) => {
-  const theme = useTheme();
-  const backgroundColor = isOutgoing ? theme.palette.primary.main : '#fff';
-  const textColor = isOutgoing
-    ? theme.palette.primary.contrastText
-    : 'secondary';
+const MessageItem = React.forwardRef<HTMLDivElement, MessageItemProps>(
+  (
+    {
+      text,
+      isOutgoing,
+      timestamp,
+      isLastMessage,
+      isFirstMessage,
+      highlightText,
+      sender,
+    },
+    ref
+  ) => {
+    const theme = useTheme();
+    const backgroundColor = isOutgoing ? theme.palette.primary.main : '#fff';
+    const textColor = isOutgoing
+      ? theme.palette.primary.contrastText
+      : 'secondary';
 
-  const renderAvatar = () => (
-    <UserAvatar
-      firstName={sender.firstName}
-      lastName={sender.lastName}
-      avatarUrl={sender.avatarUrl}
-      initialsColor={sender.initialsColor}
-      backgroundColor={sender.backgroundColor}
-    />
-  );
+    const renderAvatar = () => (
+      <UserAvatar
+        firstName={sender.firstName}
+        lastName={sender.lastName}
+        avatarUrl={sender.avatarUrl}
+        initialsColor={sender.initialsColor}
+        backgroundColor={sender.backgroundColor}
+      />
+    );
 
-  return (
-    <Box
-      sx={{
-        display: 'flex',
-        justifyContent: isOutgoing ? 'flex-end' : 'flex-start',
-        alignItems: 'top',
-        mb: 1,
-      }}
-    >
-      <Box sx={{ mr: '10px', minWidth: 40 }}>
-        {isFirstMessage && !isOutgoing && renderAvatar()}
-      </Box>
+    // Helper function to highlight parts of the text
+    const getHighlightedText = (text: string, highlight: string) => {
+      if (!highlight) return <span>{text}</span>;
+
+      const parts = text.split(new RegExp(`(${highlight})`, 'gi')); // Split by the highlight text, case insensitive
+      return parts.map((part, index) =>
+        part.toLowerCase() === highlight.toLowerCase() ? (
+          <span key={index} style={{ backgroundColor: '#8db0ff' }}>
+            {part}
+          </span>
+        ) : (
+          part
+        )
+      );
+    };
+
+    return (
       <Box
+        ref={ref}
         sx={{
           display: 'flex',
-          flexDirection: 'column',
-          alignItems: isOutgoing ? 'end' : 'start',
-          maxWidth: '70%',
+          justifyContent: isOutgoing ? 'flex-end' : 'flex-start',
+          alignItems: 'top',
+          mb: 1,
+          lineBreak: 'anywhere',
         }}
       >
+        <Box sx={{ mr: '10px', minWidth: 40 }}>
+          {isFirstMessage && !isOutgoing && renderAvatar()}
+        </Box>
         <Box
           sx={{
-            padding: '10px 15px',
-            borderRadius: '10px',
-            backgroundColor: backgroundColor,
-            textAlign: isOutgoing ? 'right' : 'left',
-            boxShadow: 1,
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: isOutgoing ? 'end' : 'start',
+            maxWidth: '70%',
           }}
         >
-          <Typography variant="body1" color={textColor}>
-            {text}
-          </Typography>
-        </Box>
-        {isLastMessage && timestamp && (
-          <Typography
-            variant="caption"
-            color={theme.palette.primary.dark}
-            sx={{ display: 'block', marginTop: '5px', opacity: 0.7 }}
+          <Box
+            sx={{
+              padding: '10px 15px',
+              borderRadius: '10px',
+              backgroundColor: backgroundColor,
+              textAlign: isOutgoing ? 'right' : 'left',
+              boxShadow: 1,
+            }}
           >
-            {formatISOTo12HourTime(timestamp)}
-          </Typography>
-        )}
+            <Typography variant="body1" color={textColor}>
+              {highlightText ? getHighlightedText(text, highlightText) : text}
+            </Typography>
+          </Box>
+          {isLastMessage && timestamp && (
+            <Typography
+              variant="caption"
+              color={theme.palette.primary.dark}
+              sx={{ display: 'block', marginTop: '5px', opacity: 0.7 }}
+            >
+              {formatISOTo12HourTime(timestamp)}
+            </Typography>
+          )}
+        </Box>
+        <Box sx={{ ml: '10px', minWidth: 40 }}>
+          {isFirstMessage && isOutgoing && renderAvatar()}
+        </Box>
       </Box>
-      <Box sx={{ ml: '10px', minWidth: 40 }}>
-        {isFirstMessage && isOutgoing && renderAvatar()}
-      </Box>
-    </Box>
-  );
-};
+    );
+  }
+);
 
 export default MessageItem;

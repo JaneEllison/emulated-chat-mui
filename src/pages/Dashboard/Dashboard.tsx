@@ -6,7 +6,7 @@ import { useAuthStore } from '../../store/authStore.ts';
 import { Api } from '../../server';
 import { UserListItem, ResizableSidebar, UserAvatar } from '../../components';
 import { Chat, Contact } from '../../server/types.ts';
-import { ChatView } from './ChatView.tsx';
+import ChatView from './ChatView.tsx';
 
 const Dashboard = () => {
   const navigate = useNavigate();
@@ -140,6 +140,7 @@ const Dashboard = () => {
           sx={{
             display: 'flex',
             flexDirection: 'column',
+            justifyContent: 'space-between',
             flexGrow: 1,
           }}
         >

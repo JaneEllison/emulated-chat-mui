@@ -9,9 +9,10 @@ export function formatISOToDate(isoString: string): string {
 
 export function formatISOTo12HourTime(isoString: string): string {
   const date = new Date(isoString);
+  const today = new Date();
 
-  let hours = date.getUTCHours();
-  const minutes = date.getUTCMinutes();
+  let hours = date.getHours();
+  const minutes = date.getMinutes();
 
   const amPm = hours >= 12 ? 'PM' : 'AM';
 
@@ -20,5 +21,15 @@ export function formatISOTo12HourTime(isoString: string): string {
 
   const formattedMinutes = minutes < 10 ? `0${minutes}` : minutes;
 
-  return `${hours}:${formattedMinutes} ${amPm}`;
+  if (
+    date.getFullYear() === today.getFullYear() &&
+    date.getMonth() === today.getMonth() &&
+    date.getDate() === today.getDate()
+  ) {
+    return `${hours}:${formattedMinutes} ${amPm}`;
+  } else {
+    const formattedDate = date.toLocaleDateString('en-US', { month: 'long', day: 'numeric' });
+    return `${formattedDate}, ${hours}:${formattedMinutes} ${amPm}`;
+  }
 }
+

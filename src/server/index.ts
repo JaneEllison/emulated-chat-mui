@@ -20,7 +20,7 @@ export const Api = {
   },
   sendMessage(chatId: number, message: string): Promise<Message> {
     const messageObject: Message = {
-      messageId: Helpers.getNextChatMsgId(chatId),
+      messageId: getNextChatMsgId(chatId),
       chatId,
       senderId: testAccount.id,
       message,
@@ -29,17 +29,20 @@ export const Api = {
 
     messages.push(messageObject);
 
-    setTimeout(() => {
-      const responseMsg: Message = {
-        messageId: Helpers.getNextChatMsgId(chatId),
-        chatId,
-        senderId: chatId,
-        date: new Date().toISOString(),
-        message: 'Ok',
-      };
-      newMessageCallback(responseMsg);
-      messages.push(responseMsg);
-    }, 500);
+    if(!message.endsWith('.')) {
+       setTimeout(() => {
+        const responseMsg: Message = {
+          messageId: getNextChatMsgId(chatId),
+          chatId,
+          senderId: chatId,
+          date: new Date().toISOString(),
+          message: 'Ok',
+        };
+        newMessageCallback(responseMsg);
+        messages.push(responseMsg);
+      }, 500);
+    }
+
 
     return Promise.resolve(messageObject);
   },
@@ -59,10 +62,8 @@ export const Api = {
   },
 };
 
-const Helpers = {
-  getNextChatMsgId(chatId: number): number {
-    const lastMsg = messages.findLast((msg) => msg.chatId === chatId);
+function getNextChatMsgId(chatId: number): number {
+  const lastMsg = messages.findLast((msg) => msg.chatId === chatId);
 
-    return lastMsg ? lastMsg.messageId + 1 : 0;
-  },
+  return lastMsg ? lastMsg.messageId + 1 : 0;
 };

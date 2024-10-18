@@ -1,32 +1,43 @@
-import { Chat, Message } from '../../server/types.ts';
-import { MessageItem, UserAvatar } from '../../components';
-import { Api } from '../../server';
-import { useEffect, useState } from 'react';
-import { useAuthStore } from '../../store/authStore.ts';
+import { useRef, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { MessageInput } from '../../components/MessageInput.tsx';
-import { Box, Typography } from '@mui/material';
+import { Box, Typography, IconButton, TextField } from '@mui/material';
+import ChatBubbleOutlineIcon from '@mui/icons-material/ChatBubbleOutline';
+import SearchIcon from '@mui/icons-material/Search';
+import { MessageItem, UserAvatar, MessageInput } from '../../components';
+import { Chat, Message } from '../../server/types.ts';
+import { Api } from '../../server';
+import { useAuthStore } from '../../store/authStore.ts';
 
 type ChatViewProps = {
   chat: Chat;
 };
 
-export function ChatView({ chat }: ChatViewProps) {
+const ChatView = ({ chat }: ChatViewProps) => {
   const navigate = useNavigate();
-  const [messages, setMessages] = useState<Message[]>([]);
   const activeUser = useAuthStore((state) => state.user);
+
+  const [messages, setMessages] = useState<Message[]>([]);
+  const [isSearchVisible, setIsSearchVisible] = useState(false);
+  const [search, setSearch] = useState('');
+  const messageRefs = useRef<(HTMLDivElement | null)[]>([]);
 
   useEffect(() => {
     (async () => {
       setMessages(await Api.getChatMessages(chat.id));
     })();
+    hideSearch();
   }, [chat]);
 
   useEffect(() => {
     Api.subscribeToNewMessages((msg) => {
       if (msg.chatId === chat.id) setMessages([...messages, msg]);
     });
+    scrollToLastMessage();
   }, [chat, messages]);
+
+  useEffect(() => {
+    scrollToLastSearchResult();
+  }, [search, messages]);
 
   if (!activeUser) {
     navigate('/');
@@ -37,29 +48,60 @@ export function ChatView({ chat }: ChatViewProps) {
     return message.senderId === activeUser.id;
   };
 
-  const isLastMessage = (
-    messages: Message[],
-    currentIndex: number
-  ): boolean => {
+  const isLastMessage = (messages: Message[], currentIndex: number): boolean => {
     const msg = messages[currentIndex];
     const nextMsg = messages[currentIndex + 1];
-
     return !nextMsg || msg.senderId !== nextMsg.senderId;
   };
 
-  const isFirstMessage = (
-    messages: Message[],
-    currentIndex: number
-  ): boolean => {
+  const isFirstMessage = (messages: Message[], currentIndex: number): boolean => {
     const msg = messages[currentIndex];
     const prevMsg = messages[currentIndex - 1];
-
     return !prevMsg || msg.senderId !== prevMsg.senderId;
   };
 
   const sendMessage = async (message: string) => {
     const newMessage = await Api.sendMessage(chat.id, message);
-    setMessages([...messages, newMessage]);
+    setMessages((prevMessages) => [...prevMessages, newMessage]);
+  };
+
+  const scrollToLastMessage = () => {
+    const lastMessage = messageRefs.current[messageRefs.current.length - 1];
+    if (lastMessage) {
+      lastMessage.scrollIntoView();
+    }
+  };
+
+  const scrollToLastSearchResult = () => {
+    if (!search) return;
+
+    const lastSearchResultIndex = messages.findLastIndex((msg) =>
+      msg.message.toLowerCase().includes(search.toLowerCase())
+    );
+
+    if (lastSearchResultIndex !== -1) {
+      const lastSearchMessage = messageRefs.current[lastSearchResultIndex];
+      if (lastSearchMessage) {
+        lastSearchMessage.scrollIntoView({ behavior: 'smooth' });
+      }
+    }
+  };
+
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
+    if (e.key === 'Escape') {
+      e.preventDefault();
+      hideSearch();
+    }
+  };
+
+  const searchToggle = () => {
+    setIsSearchVisible((prev) => !prev);
+    setSearch('');
+  };
+
+  const hideSearch = () => {
+    setIsSearchVisible(false);
+    setSearch('');
   };
 
   return (
@@ -91,33 +133,83 @@ export function ChatView({ chat }: ChatViewProps) {
             {`${chat.firstName} ${chat.lastName}`}
           </Typography>
         </Box>
+        <Box>
+          <Box sx={{ display: 'flex', alignItems: 'center' }}>
+            <IconButton onClick={searchToggle} color="inherit">
+              <SearchIcon />
+            </IconButton>
+            {isSearchVisible && (
+              <TextField
+                value={search}
+                variant="outlined"
+                size="small"
+                placeholder="Search..."
+                autoFocus
+                sx={{ marginLeft: 2 }}
+                onChange={(event) => setSearch(event.target.value)}
+                onKeyDown={handleKeyDown}
+              />
+            )}
+          </Box>
+        </Box>
       </Box>
       <Box
         sx={{
           p: 2,
+          pt: 0,
           maxWidth: '800px',
           marginX: 'auto',
-          width: '100%',
-          height: '100%',
+          width: '-webkit-fill-available',
+          height: 'fit-content',
+          maxHeight: 'calc(100% - 103px)',
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'flex-end',
+          flexGrow: 1,
         }}
       >
-        <Box sx={{}}>
-          {messages.map((message, index) => (
-            <MessageItem
-              key={message.messageId}
-              isOutgoing={isOutgoing(message)}
-              text={message.message}
-              timestamp={message.date}
-              isLastMessage={isLastMessage(messages, index)}
-              isFirstMessage={isFirstMessage(messages, index)}
-              sender={isOutgoing(message) ? activeUser : chat}
-            />
-          ))}
-          {!messages.length && 'No messages yet :('}
-        </Box>
+        {messages.length ? (
+          <Box
+            sx={{
+              overflowY: 'auto',
+              pt: 1,
+              '&::-webkit-scrollbar': {
+                display: 'none',
+              },
+            }}
+          >
+            {messages.map((message, index) => {
+              const getRef = (element: HTMLDivElement) => {
+                messageRefs.current[index] = element;
+              };
 
+              return (
+                <MessageItem
+                  ref={getRef}
+                  key={message.messageId}
+                  isOutgoing={isOutgoing(message)}
+                  text={message.message}
+                  timestamp={message.date}
+                  isLastMessage={isLastMessage(messages, index)}
+                  isFirstMessage={isFirstMessage(messages, index)}
+                  sender={isOutgoing(message) ? activeUser : chat}
+                  highlightText={search}
+                />
+              );
+            })}
+          </Box>
+        ) : (
+          <Box sx={{ m: 'auto', textAlign: 'center' }}>
+            <ChatBubbleOutlineIcon style={{ fontSize: 70, color: '#ccc' }} />
+            <Typography color="secondary" variant="body1" fontWeight="bold">
+              No messages yet :(
+            </Typography>
+          </Box>
+        )}
         <MessageInput onSend={sendMessage} />
       </Box>
     </>
   );
 }
+
+export default ChatView;
