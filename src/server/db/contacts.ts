@@ -5,7 +5,7 @@ export const contacts: Contact[] = [
     id: 1,
     firstName: 'John',
     lastName: 'Doe',
-    title: 'Software Engineer',
+    title: 'Senior Software Engineer at Google, specializing in scalable systems architecture and cloud-based solutions',
     avatarUrl: 'avatar-1.jpg',
   },
   {
@@ -34,7 +34,7 @@ export const contacts: Contact[] = [
   {
     id: 5,
     firstName: 'James',
-    lastName: 'Wilson',
+    lastName: 'Wolfeschlegelsteinhausenbergerdorff',
     title: 'DevOps Engineer',
     avatarUrl: 'avatar-3.jpg',
   },
@@ -70,9 +70,9 @@ export const contacts: Contact[] = [
   },
   {
     id: 10,
-    firstName: 'SophiaSophiaSophiaSophiaSophia',
+    firstName: 'Sophia',
     lastName: 'Walker',
-    title: 'HR SpecialistSophiaSophiaSophiaSophiaSophiaSophiaSophia',
+    title: 'HR Specialist',
     initialsColor: '#CC4E00',
     backgroundColor: '#FFD19A',
   },

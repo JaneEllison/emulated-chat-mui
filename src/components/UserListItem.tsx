@@ -137,8 +137,7 @@ const UserListItem: React.FC<UserListItemProps> = ({
             sx={{
               overflow: 'hidden',
               textOverflow: 'ellipsis',
-              lineBreak: 'anywhere',
-              WebkitLineClamp: 2,
+              whiteSpace: 'nowrap',
             }}
           >
             {text}
