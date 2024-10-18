@@ -8,9 +8,15 @@ export type Contact = {
   backgroundColor?: string;
 };
 
+export type ChatModel = {
+  // For simplicity there are no group chats and chatId always equals to contact id
+  chatId: number;
+  status: ChatStatus;
+};
+
 export type Chat = Contact & {
-  lastMessageText: string;
-  lastMessageDate: string;
+  lastMessageText: string | null;
+  lastMessageDate: string | null;
   status: ChatStatus;
 };
 
@@ -22,7 +28,6 @@ export enum ChatStatus {
 
 export type Message = {
   messageId: number;
-  // For simplicity there are no group chats and chatId always equals to contact/recipient id
   chatId: number;
   senderId: number;
   message: string;

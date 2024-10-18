@@ -8,10 +8,28 @@ let newMessageCallback: NewMessageCallback = () => {};
 
 export const Api = {
   getContacts(): Promise<Contact[]> {
-    return Promise.resolve(contacts);
+    return Promise.resolve(
+      contacts.filter(
+        (contact) => !chats.some((chat) => chat.chatId === contact.id)
+      )
+    );
   },
   getChats(): Promise<Chat[]> {
-    return Promise.resolve(chats);
+    const mappedChats: Chat[] = [];
+    chats.forEach((chat) => {
+      const contact = contacts.find((c) => c.id === chat.chatId);
+      if (!contact) return;
+
+      const lastMsg = getLastMessage(chat.chatId);
+      mappedChats.push({
+        ...contact,
+        status: chat.status,
+        lastMessageDate: lastMsg?.date ?? null,
+        lastMessageText: lastMsg?.message ?? null,
+      });
+    });
+
+    return Promise.resolve(mappedChats);
   },
   getChatMessages(chatId: number): Promise<Message[]> {
     const chatMessages = messages.filter((m) => m.chatId === chatId);
@@ -62,7 +80,11 @@ export const Api = {
 };
 
 function getNextChatMsgId(chatId: number): number {
-  const lastMsg = messages.findLast((msg) => msg.chatId === chatId);
+  const lastMsg = getLastMessage(chatId);
 
   return lastMsg ? lastMsg.messageId + 1 : 0;
+}
+
+function getLastMessage(chatId: number): Message | null {
+  return messages.findLast((msg) => msg.chatId === chatId) ?? null;
 }

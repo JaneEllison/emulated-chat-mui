@@ -1,46 +1,20 @@
-import { Chat, ChatStatus } from '../types.ts';
+import { ChatModel, ChatStatus } from '../types.ts';
 
-export const chats: Chat[] = [
+export const chats: ChatModel[] = [
   {
-    id: 16,
-    firstName: 'John',
-    lastName: 'Doe',
-    title: 'Software Engineer',
-    avatarUrl: 'avatar-10.jpg',
-    lastMessageText: 'Hey, are we still on for the meeting?',
-    lastMessageDate: '2024-10-17T19:59:00.000Z',
+    chatId: 1,
     status: ChatStatus.Online,
   },
   {
-    id: 17,
-    firstName: 'Emily',
-    lastName: 'Davis',
-    title: 'Data Scientist',
-    initialsColor: '#027864',
-    backgroundColor: '#B3ECDE',
-    lastMessageText: 'Can you review the latest dataset I sent?',
-    lastMessageDate: '2024-10-14T15:47:00.000Z',
+    chatId: 2,
     status: ChatStatus.Offline,
   },
   {
-    id: 18,
-    firstName: 'Matthew',
-    lastName: 'Lee',
-    title: 'Security Analyst',
-    avatarUrl: 'avatar-11.jpg',
-    lastMessageText: 'The security audit is complete.',
-    lastMessageDate: '2024-09-26T10:15:00.000Z',
+    chatId: 3,
     status: ChatStatus.Busy,
   },
   {
-    id: 19,
-    firstName: 'Ava',
-    lastName: 'Allen',
-    title: 'Business Analyst',
-    initialsColor: '#00749E',
-    backgroundColor: '#BEE7F5',
-    lastMessageText: 'Meeting rescheduled to 3 PM.',
-    lastMessageDate: '2024-06-06T20:30:00.000Z',
+    chatId: 4,
     status: ChatStatus.Offline,
   },
 ];
