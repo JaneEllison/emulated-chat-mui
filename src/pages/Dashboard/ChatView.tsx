@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react';
 import { useAuthStore } from '../../store/authStore.ts';
 import { useNavigate } from 'react-router-dom';
 import { MessageInput } from '../../components/MessageInput.tsx';
-import { Box } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 
 type ChatViewProps = {
   chat: Chat;
@@ -37,15 +37,24 @@ export function ChatView({ chat }: ChatViewProps) {
     return message.senderId === activeUser.id;
   };
 
-  const getTimestamp = (
+  const isLastMessage = (
     messages: Message[],
     currentIndex: number
-  ): string | undefined => {
+  ): boolean => {
     const msg = messages[currentIndex];
     const nextMsg = messages[currentIndex + 1];
 
-    if (!nextMsg || msg.senderId !== nextMsg.senderId) return msg.date;
-    return undefined;
+    return !nextMsg || msg.senderId !== nextMsg.senderId;
+  };
+
+  const isFirstMessage = (
+    messages: Message[],
+    currentIndex: number
+  ): boolean => {
+    const msg = messages[currentIndex];
+    const prevMsg = messages[currentIndex - 1];
+
+    return !prevMsg || msg.senderId !== prevMsg.senderId;
   };
 
   const sendMessage = async (message: string) => {
@@ -55,27 +64,60 @@ export function ChatView({ chat }: ChatViewProps) {
 
   return (
     <>
-      <Box bgcolor={'#dddddd'}>
-        <UserAvatar
-          firstName={chat.firstName}
-          lastName={chat.lastName}
-          avatarUrl={chat.avatarUrl}
-          backgroundColor={chat.backgroundColor}
-          initialsColor={chat.initialsColor}
-        />
-        {`${chat.firstName} ${chat.lastName}`}
+      <Box
+        sx={{
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          padding: '10px',
+          backgroundColor: '#fff',
+          position: 'sticky',
+          top: 0,
+          zIndex: 1000,
+          py: 3,
+          px: 4,
+          boxShadow: '0 2px 8px rgba(0, 0, 0, 0.1)',
+        }}
+      >
+        <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+          <UserAvatar
+            firstName={chat.firstName}
+            lastName={chat.lastName}
+            avatarUrl={chat.avatarUrl}
+            backgroundColor={chat.backgroundColor}
+            initialsColor={chat.initialsColor}
+          />
+          <Typography color="secondary" variant="body1" fontWeight="bold">
+            {`${chat.firstName} ${chat.lastName}`}
+          </Typography>
+        </Box>
       </Box>
-      {messages.map((message, index) => (
-        <MessageItem
-          key={message.messageId}
-          isOutgoing={isOutgoing(message)}
-          text={message.message}
-          timestamp={getTimestamp(messages, index)}
-          sender={isOutgoing(message) ? activeUser : chat}
-        />
-      ))}
-      {!messages.length && 'No messages yet :('}
-      <MessageInput onSend={sendMessage} />
+      <Box
+        sx={{
+          p: 2,
+          maxWidth: '800px',
+          marginX: 'auto',
+          width: '100%',
+          height: '100%',
+        }}
+      >
+        <Box sx={{}}>
+          {messages.map((message, index) => (
+            <MessageItem
+              key={message.messageId}
+              isOutgoing={isOutgoing(message)}
+              text={message.message}
+              timestamp={message.date}
+              isLastMessage={isLastMessage(messages, index)}
+              isFirstMessage={isFirstMessage(messages, index)}
+              sender={isOutgoing(message) ? activeUser : chat}
+            />
+          ))}
+          {!messages.length && 'No messages yet :('}
+        </Box>
+
+        <MessageInput onSend={sendMessage} />
+      </Box>
     </>
   );
 }

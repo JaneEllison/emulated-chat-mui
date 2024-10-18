@@ -8,12 +8,14 @@ import {
   TextField,
   Button,
   Alert,
+  useTheme,
 } from '@mui/material';
 import LockIcon from '@mui/icons-material/Lock';
 import { Api } from '../../server';
 import { useAuthStore } from '../../store/authStore.ts';
 
 const Login = () => {
+  const theme = useTheme();
   const emailRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
   const [error, setError] = useState('');
@@ -50,7 +52,7 @@ const Login = () => {
         justifyContent: 'center',
         width: '100%',
         minHeight: '100vh',
-        backgroundColor: '#f0f0f8',
+        backgroundColor: theme.palette.background.default,
       }}
     >
       <Container component="section" maxWidth="xs">
@@ -63,6 +65,7 @@ const Login = () => {
             flexDirection: 'column',
             alignItems: 'center',
             justifyContent: 'center',
+            bgcolor: '#fff',
           }}
         >
           <LockIcon color="primary" fontSize="large" sx={{ mb: 1 }} />

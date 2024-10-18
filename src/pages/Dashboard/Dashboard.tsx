@@ -79,7 +79,7 @@ const Dashboard = () => {
               </Typography>
             </Box>
 
-            <Button variant="contained" onClick={handleLogout}>
+            <Button variant="outlined" color="error" onClick={handleLogout}>
               Logout
             </Button>
           </Box>
@@ -141,9 +141,6 @@ const Dashboard = () => {
             display: 'flex',
             flexDirection: 'column',
             flexGrow: 1,
-            p: 2,
-            maxWidth: '800px',
-            marginX: 'auto',
           }}
         >
           {activeChat && <ChatView chat={activeChat} />}

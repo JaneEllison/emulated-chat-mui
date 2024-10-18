@@ -2,11 +2,14 @@ import React from 'react';
 import { Box, Typography, useTheme } from '@mui/material';
 import { Contact } from '../server/types.ts';
 import { UserAvatar } from '../components';
+import { formatISOTo12HourTime } from '../utils.tsx';
 
 type MessageItemProps = {
   text: string;
   isOutgoing: boolean;
   timestamp?: string;
+  isLastMessage?: boolean;
+  isFirstMessage?: boolean;
   avatarUrl?: string;
   sender: Contact;
 };
@@ -15,6 +18,8 @@ const MessageItem: React.FC<MessageItemProps> = ({
   text,
   isOutgoing,
   timestamp,
+  isLastMessage,
+  isFirstMessage,
   sender,
 }) => {
   const theme = useTheme();
@@ -42,8 +47,9 @@ const MessageItem: React.FC<MessageItemProps> = ({
         mb: 1,
       }}
     >
-      {!isOutgoing && <Box mr={'10px'}>{renderAvatar()}</Box>}
-
+      <Box sx={{ mr: '10px', minWidth: 40 }}>
+        {isFirstMessage && !isOutgoing && renderAvatar()}
+      </Box>
       <Box
         sx={{
           display: 'flex',
@@ -65,16 +71,19 @@ const MessageItem: React.FC<MessageItemProps> = ({
             {text}
           </Typography>
         </Box>
-        <Typography
-          variant="caption"
-          color={theme.palette.primary.dark}
-          sx={{ display: 'block', marginTop: '5px', opacity: 0.7 }}
-        >
-          {timestamp}
-        </Typography>
+        {isLastMessage && timestamp && (
+          <Typography
+            variant="caption"
+            color={theme.palette.primary.dark}
+            sx={{ display: 'block', marginTop: '5px', opacity: 0.7 }}
+          >
+            {formatISOTo12HourTime(timestamp)}
+          </Typography>
+        )}
       </Box>
-
-      {isOutgoing && <Box ml={'10px'}>{renderAvatar()}</Box>}
+      <Box sx={{ ml: '10px', minWidth: 40 }}>
+        {isFirstMessage && isOutgoing && renderAvatar()}
+      </Box>
     </Box>
   );
 };
