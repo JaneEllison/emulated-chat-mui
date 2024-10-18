@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, Typography, useTheme } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import { Contact } from '../server/types.ts';
 import { UserAvatar } from '../components';
 import { formatISOTo12HourTime } from '../utils.tsx';
@@ -28,10 +28,9 @@ const MessageItem = React.forwardRef<HTMLDivElement, MessageItemProps>(
     },
     ref
   ) => {
-    const theme = useTheme();
-    const backgroundColor = isOutgoing ? theme.palette.primary.main : '#fff';
+    const backgroundColor = isOutgoing ? "background.paper": '#fff';
     const textColor = isOutgoing
-      ? theme.palette.primary.contrastText
+      ? "primary.contrastText"
       : 'secondary';
 
     const renderAvatar = () => (
@@ -98,7 +97,7 @@ const MessageItem = React.forwardRef<HTMLDivElement, MessageItemProps>(
           {isLastMessage && timestamp && (
             <Typography
               variant="caption"
-              color={theme.palette.primary.dark}
+              color="#00000099"
               sx={{ display: 'block', marginTop: '5px', opacity: 0.7 }}
             >
               {formatISOTo12HourTime(timestamp)}

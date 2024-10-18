@@ -8,14 +8,12 @@ import {
   TextField,
   Button,
   Alert,
-  useTheme,
 } from '@mui/material';
 import LockIcon from '@mui/icons-material/Lock';
 import { Api } from '../../server';
 import { useAuthStore } from '../../store/authStore.ts';
 
 const Login = () => {
-  const theme = useTheme();
   const navigate = useNavigate();
 
   const emailRef = useRef<HTMLInputElement>(null);
@@ -53,7 +51,7 @@ const Login = () => {
         justifyContent: 'center',
         width: '100%',
         minHeight: '100vh',
-        backgroundColor: theme.palette.background.default,
+        backgroundColor: "background.default",
       }}
     >
       <Container component="section" maxWidth="xs">

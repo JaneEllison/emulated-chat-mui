@@ -5,7 +5,6 @@ import {
   ListItem,
   ListItemText,
   Typography,
-  useTheme,
 } from '@mui/material';
 import { styled } from '@mui/system';
 import { ChatStatus } from '../server/types.ts';
@@ -57,8 +56,6 @@ const UserListItem: React.FC<UserListItemProps> = ({
   backgroundColor,
   onClick = () => {},
 }) => {
-  const theme = useTheme();
-
   const renderAvatar = () => (
     <UserAvatar
       avatarUrl={avatarUrl}
@@ -69,10 +66,12 @@ const UserListItem: React.FC<UserListItemProps> = ({
     ></UserAvatar>
   );
 
+  const secondaryTextColor = isSelected ? 'white' : '#00000099';
+
   return (
     <ListItem
       sx={{
-        bgcolor: isSelected ? theme.palette.background.paper : '#fff',
+        bgcolor: isSelected ? "background.paper" : '#fff',
         borderRadius: '10px',
         py: 1.5,
         px: 2,
@@ -80,8 +79,8 @@ const UserListItem: React.FC<UserListItemProps> = ({
         transition: 'background-color 0.3s',
         '&:hover': {
           bgcolor: !isSelected
-            ? theme.palette.primary.light
-            : theme.palette.background.paper,
+            ? "primary.light"
+            : "background.paper",
         },
       }}
       onClick={onClick}
@@ -107,7 +106,7 @@ const UserListItem: React.FC<UserListItemProps> = ({
           >
             <Typography
               color={
-                isSelected ? theme.palette.primary.contrastText : 'secondary'
+                isSelected ? "primary.contrastText" : 'secondary'
               }
               variant="body1"
               fontWeight="bold"
@@ -123,7 +122,7 @@ const UserListItem: React.FC<UserListItemProps> = ({
             {date && (
               <Typography
                 variant="body2"
-                color={isSelected ? 'white' : 'textSecondary'}
+                color={secondaryTextColor}
               >
                 {formatISOToDate(date)}
               </Typography>
@@ -133,7 +132,7 @@ const UserListItem: React.FC<UserListItemProps> = ({
         secondary={
           <Typography
             variant="body2"
-            color={isSelected ? 'white' : 'textSecondary'}
+            color={secondaryTextColor}
             sx={{
               overflow: 'hidden',
               textOverflow: 'ellipsis',

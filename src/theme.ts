@@ -5,11 +5,15 @@ const theme = createTheme({
     primary: {
       main: '#5e6dc9',
       light: '#e4edff',
-      dark: '#00000099',
+      dark: '#2b3689',
       contrastText: '#fff',
     },
     secondary: {
       main: '#000000de',
+    },
+    error: {
+      main: '#f44336',
+      dark: '#8f1210',
     },
     background: {
       default: '#f5f5f5',

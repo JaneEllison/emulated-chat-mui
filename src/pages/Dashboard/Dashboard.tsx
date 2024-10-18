@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Button, Box, Typography, List, useTheme } from '@mui/material';
+import { Button, Box, Typography, List } from '@mui/material';
 import { UserListItem, ResizableSidebar, UserAvatar } from '../../components';
 import ChatView from './ChatView.tsx';
 import { useAuthStore } from '../../store/authStore.ts';
@@ -9,7 +9,6 @@ import { Chat, Contact, Message } from '../../server/types.ts';
 
 const Dashboard = () => {
   const navigate = useNavigate();
-  const theme = useTheme();
   const [contacts, setContacts] = useState<Contact[]>([]);
   const [chats, setChats] = useState<Chat[]>([]);
   const [activeChat, setActiveChat] = useState<Chat | null>(null);
@@ -58,7 +57,7 @@ const Dashboard = () => {
         sx={{
           display: 'flex',
           height: '100%',
-          backgroundColor: theme.palette.background.default,
+          backgroundColor: "background.default",
         }}
       >
         <ResizableSidebar>
@@ -105,7 +104,13 @@ const Dashboard = () => {
               </Typography>
             </Box>
             <Button
-              sx={{ minWidth: '100px' }}
+              sx={{
+                minWidth: '100px',
+                borderColor: 'error.main',
+                '&:hover': {
+                  borderColor: 'error.dark',
+                },
+              }}
               variant="outlined"
               color="error"
               onClick={handleLogout}

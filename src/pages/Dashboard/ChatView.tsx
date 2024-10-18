@@ -1,6 +1,6 @@
 import { useRef, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Box, Typography, IconButton, TextField } from '@mui/material';
+import { Box, Typography, IconButton, TextField, useTheme } from '@mui/material';
 import ChatBubbleOutlineIcon from '@mui/icons-material/ChatBubbleOutline';
 import SearchIcon from '@mui/icons-material/Search';
 import { MessageItem, UserAvatar, MessageInput } from '../../components';
@@ -14,6 +14,7 @@ type ChatViewProps = {
 };
 
 const ChatView = ({ chat, onLastMessageUpdate }: ChatViewProps) => {
+  const theme = useTheme();
   const navigate = useNavigate();
   const activeUser = useAuthStore((state) => state.user);
 
@@ -144,7 +145,7 @@ const ChatView = ({ chat, onLastMessageUpdate }: ChatViewProps) => {
         </Box>
         <Box>
           <Box sx={{ display: 'flex', alignItems: 'center' }}>
-            <IconButton onClick={searchToggle} color="inherit">
+            <IconButton onClick={searchToggle} color="inherit" aria-label="Search">
               <SearchIcon />
             </IconButton>
             {isSearchVisible && (
@@ -154,7 +155,7 @@ const ChatView = ({ chat, onLastMessageUpdate }: ChatViewProps) => {
                 size="small"
                 placeholder="Search..."
                 autoFocus
-                sx={{ marginLeft: 2 }}
+                sx={{ marginLeft: 2, width: '250px' }}
                 onChange={(event) => setSearch(event.target.value)}
                 onKeyDown={handleKeyDown}
               />
@@ -209,8 +210,8 @@ const ChatView = ({ chat, onLastMessageUpdate }: ChatViewProps) => {
           </Box>
         ) : (
           <Box sx={{ m: 'auto', textAlign: 'center' }}>
-            <ChatBubbleOutlineIcon style={{ fontSize: 70, color: '#ccc' }} />
-            <Typography color="secondary" variant="body1" fontWeight="bold">
+            <ChatBubbleOutlineIcon style={{ fontSize: 70, color: theme.palette.primary.main }} />
+            <Typography color="primary" variant="body1" fontWeight="bold">
               No messages yet :(
             </Typography>
           </Box>
