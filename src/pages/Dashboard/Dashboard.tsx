@@ -5,7 +5,7 @@ import { UserListItem, ResizableSidebar, UserAvatar } from '../../components';
 import ChatView from './ChatView.tsx';
 import { useAuthStore } from '../../store/authStore.ts';
 import { Api } from '../../server';
-import { Chat, Contact } from '../../server/types.ts';
+import { Chat, Contact, Message } from '../../server/types.ts';
 
 const Dashboard = () => {
   const navigate = useNavigate();
@@ -38,6 +38,18 @@ const Dashboard = () => {
   const handleLogout = () => {
     logOut();
     navigate('/');
+  };
+
+  const updateLastMessage = (message: Message) => {
+    const newChats = chats.map((chat) => {
+      if (chat.id !== message.chatId) return chat;
+      return {
+        ...chat,
+        lastMessageText: message.message,
+        lastMessageDate: message.date,
+      };
+    });
+    setChats(newChats);
   };
 
   return (
@@ -162,7 +174,12 @@ const Dashboard = () => {
             flexGrow: 1,
           }}
         >
-          {activeChat && <ChatView chat={activeChat} />}
+          {activeChat && (
+            <ChatView
+              chat={activeChat}
+              onLastMessageUpdate={updateLastMessage}
+            />
+          )}
         </Box>
       </Box>
     </>

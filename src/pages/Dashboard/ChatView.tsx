@@ -10,9 +10,10 @@ import { useAuthStore } from '../../store/authStore.ts';
 
 type ChatViewProps = {
   chat: Chat;
+  onLastMessageUpdate: (message: Message) => void;
 };
 
-const ChatView = ({ chat }: ChatViewProps) => {
+const ChatView = ({ chat, onLastMessageUpdate }: ChatViewProps) => {
   const navigate = useNavigate();
   const activeUser = useAuthStore((state) => state.user);
 
@@ -31,9 +32,10 @@ const ChatView = ({ chat }: ChatViewProps) => {
   useEffect(() => {
     Api.subscribeToNewMessages((msg) => {
       if (msg.chatId === chat.id) setMessages([...messages, msg]);
+      onLastMessageUpdate(msg);
     });
     scrollToLastMessage();
-  }, [chat, messages]);
+  }, [chat, messages, onLastMessageUpdate]);
 
   useEffect(() => {
     scrollToLastSearchResult();
@@ -68,6 +70,7 @@ const ChatView = ({ chat }: ChatViewProps) => {
 
   const sendMessage = async (message: string) => {
     const newMessage = await Api.sendMessage(chat.id, message);
+    onLastMessageUpdate(newMessage);
     setMessages((prevMessages) => [...prevMessages, newMessage]);
   };
 
