@@ -1,8 +1,8 @@
 import { Contact } from '../types.ts';
 
 export const testCredentials = {
-  login: '1',
-  password: '1',
+  login: 'test@mentortools.com',
+  password: '123456789',
 };
 
 export const testAccount: Contact = {
