@@ -1,21 +1,34 @@
 import React from 'react';
-import { Box, Avatar, Typography } from '@mui/material';
+import { Box, Typography } from '@mui/material';
+import { Contact } from '../server/types.ts';
+import { UserAvatar } from '../components';
 
 type MessageItemProps = {
   text: string;
   isOutgoing: boolean;
   timestamp?: string;
   avatarUrl?: string;
+  sender: Contact;
 };
 
 const MessageItem: React.FC<MessageItemProps> = ({
   text,
   isOutgoing,
   timestamp,
-  avatarUrl,
+  sender,
 }) => {
   const backgroundColor = isOutgoing ? '#8b95f6' : '#fff';
   const textColor = isOutgoing ? '#fff' : 'textPrimary';
+
+  const avatar = () => (
+    <UserAvatar
+      firstName={sender.firstName}
+      lastName={sender.lastName}
+      avatarUrl={sender.avatarUrl}
+      initialsColor={sender.initialsColor}
+      backgroundColor={sender.backgroundColor}
+    />
+  );
 
   return (
     <Box
@@ -26,17 +39,7 @@ const MessageItem: React.FC<MessageItemProps> = ({
         mb: 1,
       }}
     >
-      {!isOutgoing && (
-        <Avatar
-          src={avatarUrl}
-          sx={{
-            width: 48,
-            height: 48,
-            marginRight: '10px',
-            alignSelf: 'flex-start',
-          }}
-        />
-      )}
+      {!isOutgoing && <Box mr={'10px'}>{avatar()}</Box>}
 
       <Box
         sx={{
@@ -69,17 +72,7 @@ const MessageItem: React.FC<MessageItemProps> = ({
         </Typography>
       </Box>
 
-      {isOutgoing && (
-        <Avatar
-          src={avatarUrl}
-          sx={{
-            width: 48,
-            height: 48,
-            marginLeft: '10px',
-            alignSelf: 'flex-start',
-          }}
-        />
-      )}
+      {isOutgoing && <Box ml={'10px'}>{avatar()}</Box>}
     </Box>
   );
 };
