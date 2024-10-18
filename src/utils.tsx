@@ -28,8 +28,10 @@ export function formatISOTo12HourTime(isoString: string): string {
   ) {
     return `${hours}:${formattedMinutes} ${amPm}`;
   } else {
-    const formattedDate = date.toLocaleDateString('en-US', { month: 'long', day: 'numeric' });
+    const formattedDate = date.toLocaleDateString('en-US', {
+      month: 'long',
+      day: 'numeric',
+    });
     return `${formattedDate}, ${hours}:${formattedMinutes} ${amPm}`;
   }
 }
-

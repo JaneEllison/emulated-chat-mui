@@ -16,10 +16,11 @@ import { useAuthStore } from '../../store/authStore.ts';
 
 const Login = () => {
   const theme = useTheme();
+  const navigate = useNavigate();
+
   const emailRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
   const [error, setError] = useState('');
-  const navigate = useNavigate();
 
   const logIn = useAuthStore((state) => state.logIn);
 

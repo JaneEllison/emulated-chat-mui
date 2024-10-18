@@ -5,7 +5,7 @@ type ResizableSidebarProps = {
   children: ReactNode;
 };
 
-const MAX_WIDTH = 500;
+const MAX_WIDTH = 550;
 const MIN_WIDTH = 300;
 
 const ResizableSidebar: React.FC<ResizableSidebarProps> = ({ children }) => {

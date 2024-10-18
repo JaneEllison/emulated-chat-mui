@@ -29,8 +29,8 @@ export const Api = {
 
     messages.push(messageObject);
 
-    if(!message.endsWith('.')) {
-       setTimeout(() => {
+    if (!message.endsWith('.')) {
+      setTimeout(() => {
         const responseMsg: Message = {
           messageId: getNextChatMsgId(chatId),
           chatId,
@@ -42,7 +42,6 @@ export const Api = {
         messages.push(responseMsg);
       }, 500);
     }
-
 
     return Promise.resolve(messageObject);
   },
@@ -66,4 +65,4 @@ function getNextChatMsgId(chatId: number): number {
   const lastMsg = messages.findLast((msg) => msg.chatId === chatId);
 
   return lastMsg ? lastMsg.messageId + 1 : 0;
-};
+}

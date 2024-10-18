@@ -48,13 +48,19 @@ const ChatView = ({ chat }: ChatViewProps) => {
     return message.senderId === activeUser.id;
   };
 
-  const isLastMessage = (messages: Message[], currentIndex: number): boolean => {
+  const isLastMessage = (
+    messages: Message[],
+    currentIndex: number
+  ): boolean => {
     const msg = messages[currentIndex];
     const nextMsg = messages[currentIndex + 1];
     return !nextMsg || msg.senderId !== nextMsg.senderId;
   };
 
-  const isFirstMessage = (messages: Message[], currentIndex: number): boolean => {
+  const isFirstMessage = (
+    messages: Message[],
+    currentIndex: number
+  ): boolean => {
     const msg = messages[currentIndex];
     const prevMsg = messages[currentIndex - 1];
     return !prevMsg || msg.senderId !== prevMsg.senderId;
@@ -210,6 +216,6 @@ const ChatView = ({ chat }: ChatViewProps) => {
       </Box>
     </>
   );
-}
+};
 
 export default ChatView;

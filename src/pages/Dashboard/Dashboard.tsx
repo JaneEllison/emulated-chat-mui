@@ -1,12 +1,11 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button, Box, Typography, List, useTheme } from '@mui/material';
-
+import { UserListItem, ResizableSidebar, UserAvatar } from '../../components';
+import ChatView from './ChatView.tsx';
 import { useAuthStore } from '../../store/authStore.ts';
 import { Api } from '../../server';
-import { UserListItem, ResizableSidebar, UserAvatar } from '../../components';
 import { Chat, Contact } from '../../server/types.ts';
-import ChatView from './ChatView.tsx';
 
 const Dashboard = () => {
   const navigate = useNavigate();
@@ -63,10 +62,20 @@ const Dashboard = () => {
               zIndex: 1000,
               py: 3,
               px: 4,
+              gap: 2,
               boxShadow: '0 2px 8px rgba(0, 0, 0, 0.1)',
             }}
           >
-            <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+            <Box
+              sx={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: 2,
+                overflow: 'hidden',
+                textOverflow: 'ellipsis',
+                whiteSpace: 'nowrap',
+              }}
+            >
               <UserAvatar
                 avatarUrl={user.avatarUrl}
                 backgroundColor={user.backgroundColor}
@@ -74,12 +83,21 @@ const Dashboard = () => {
                 firstName={user.firstName}
                 lastName={user.lastName}
               />
-              <Typography color="secondary" variant="body1" fontWeight="bold">
+              <Typography
+                color="secondary"
+                noWrap
+                variant="body1"
+                fontWeight="bold"
+              >
                 {`${user.firstName} ${user.lastName}`}
               </Typography>
             </Box>
-
-            <Button variant="outlined" color="error" onClick={handleLogout}>
+            <Button
+              sx={{ minWidth: '100px' }}
+              variant="outlined"
+              color="error"
+              onClick={handleLogout}
+            >
               Logout
             </Button>
           </Box>
