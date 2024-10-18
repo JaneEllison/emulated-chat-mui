@@ -28,3 +28,5 @@ export type Message = {
   message: string;
   date: string;
 };
+
+export type NewMessageCallback = (message: Message) => void;

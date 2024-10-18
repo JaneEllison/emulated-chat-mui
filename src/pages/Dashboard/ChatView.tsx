@@ -20,7 +20,13 @@ export function ChatView({ chat }: ChatViewProps) {
     (async () => {
       setMessages(await Api.getChatMessages(chat.id));
     })();
-  }, [chat.id]);
+  }, [chat]);
+
+  useEffect(() => {
+    Api.subscribeToNewMessages((msg) => {
+      if (msg.chatId === chat.id) setMessages([...messages, msg]);
+    });
+  }, [chat, messages]);
 
   if (!activeUser) {
     navigate('/');

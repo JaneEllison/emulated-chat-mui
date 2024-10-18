@@ -1,8 +1,10 @@
-import { Contact, Chat, Message } from './types.ts';
+import { Contact, Chat, Message, NewMessageCallback } from './types.ts';
 import { contacts } from './db/contacts.ts';
 import { chats } from './db/chats.ts';
 import { messages } from './db/messages.ts';
 import { testAccount, testCredentials } from './db/test-account.ts';
+
+let newMessageCallback: NewMessageCallback = () => {};
 
 export const Api = {
   getContacts(): Promise<Contact[]> {
@@ -16,10 +18,10 @@ export const Api = {
 
     return Promise.resolve(chatMessages);
   },
-  sendMessage(userId: number, message: string): Promise<Message> {
+  sendMessage(chatId: number, message: string): Promise<Message> {
     const messageObject: Message = {
-      messageId: (messages[messages.length - 1]?.messageId ?? -1) + 1,
-      chatId: userId,
+      messageId: Helpers.getNextChatMsgId(chatId),
+      chatId,
       senderId: testAccount.id,
       message,
       date: new Date().toISOString(),
@@ -27,7 +29,22 @@ export const Api = {
 
     messages.push(messageObject);
 
+    setTimeout(() => {
+      const responseMsg: Message = {
+        messageId: Helpers.getNextChatMsgId(chatId),
+        chatId,
+        senderId: chatId,
+        date: new Date().toISOString(),
+        message: 'Ok',
+      };
+      newMessageCallback(responseMsg);
+      messages.push(responseMsg);
+    }, 500);
+
     return Promise.resolve(messageObject);
+  },
+  subscribeToNewMessages(callback: NewMessageCallback): void {
+    newMessageCallback = callback;
   },
   signIn(login: string, password: string): Promise<Contact> {
     if (
@@ -39,5 +56,13 @@ export const Api = {
       });
     }
     return Promise.resolve(testAccount);
+  },
+};
+
+const Helpers = {
+  getNextChatMsgId(chatId: number): number {
+    const lastMsg = messages.findLast((msg) => msg.chatId === chatId);
+
+    return lastMsg ? lastMsg.messageId + 1 : 0;
   },
 };
