@@ -13,8 +13,8 @@ export const contacts: Contact[] = [
     firstName: 'Jane',
     lastName: 'Smith',
     title: 'Product Manager',
-    initialsColor: '#FFFFFF',
-    backgroundColor: '#FF5733',
+    initialsColor: '#2A7E3B',
+    backgroundColor: '#C9E8CA',
   },
   {
     id: 3,
@@ -28,8 +28,8 @@ export const contacts: Contact[] = [
     firstName: 'Emily',
     lastName: 'Davis',
     title: 'Data Scientist',
-    initialsColor: '#000000',
-    backgroundColor: '#C70039',
+    initialsColor: '#0D74CE',
+    backgroundColor: '#C2E5FF',
   },
   {
     id: 5,
@@ -43,8 +43,8 @@ export const contacts: Contact[] = [
     firstName: 'Olivia',
     lastName: 'Martinez',
     title: 'Scrum Master',
-    initialsColor: '#34495E',
-    backgroundColor: '#2980B9',
+    initialsColor: '#6550B9',
+    backgroundColor: '#E1D9FF',
   },
   {
     id: 7,
@@ -58,8 +58,8 @@ export const contacts: Contact[] = [
     firstName: 'Isabella',
     lastName: 'Rodriguez',
     title: 'Marketing Lead',
-    initialsColor: '#E74C3C',
-    backgroundColor: '#F39C12',
+    initialsColor: '#CE2C31',
+    backgroundColor: '#FFCDCE',
   },
   {
     id: 9,
@@ -73,8 +73,8 @@ export const contacts: Contact[] = [
     firstName: 'Sophia',
     lastName: 'Walker',
     title: 'HR Specialist',
-    initialsColor: '#16A085',
-    backgroundColor: '#2ECC71',
+    initialsColor: '#CC4E00',
+    backgroundColor: '#FFD19A',
   },
   {
     id: 11,
@@ -88,8 +88,8 @@ export const contacts: Contact[] = [
     firstName: 'Ava',
     lastName: 'Allen',
     title: 'Business Analyst',
-    initialsColor: '#8E44AD',
-    backgroundColor: '#9B59B6',
+    initialsColor: '#5C7C2F',
+    backgroundColor: '#D3E7A6',
   },
   {
     id: 13,
@@ -104,8 +104,8 @@ export const contacts: Contact[] = [
     lastName: 'King',
     title: 'Finance Manager',
 
-    initialsColor: '#D35400',
-    backgroundColor: '#E67E22',
+    initialsColor: '#CC4E00',
+    backgroundColor: '#FFD19A',
   },
   {
     id: 15,

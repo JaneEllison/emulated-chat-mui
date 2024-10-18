@@ -15,6 +15,7 @@ type UserListItemProps = {
   avatarUrl?: string;
   initialsColor?: string;
   backgroundColor?: string;
+  onClick?: () => void;
 };
 
 const getStatusColor = (status: ChatStatus) => {
@@ -47,6 +48,7 @@ const UserListItem: React.FC<UserListItemProps> = ({
   avatarUrl,
   initialsColor,
   backgroundColor,
+  onClick = () => {},
 }) => {
   const avatar = () => {
     return (
@@ -73,6 +75,7 @@ const UserListItem: React.FC<UserListItemProps> = ({
           bgcolor: !isSelected ? '#e4edff' : '#8b95f6',
         },
       }}
+      onClick={onClick}
     >
       {status != null ? (
         <StatusBadge

@@ -11,6 +11,4 @@ export const testAccount: Contact = {
   lastName: 'Sekerich',
   title: 'Frontend Engineer',
   avatarUrl: 'avatar-9.jpg',
-  initialsColor: null,
-  backgroundColor: null,
 };

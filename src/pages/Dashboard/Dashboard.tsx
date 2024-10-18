@@ -1,16 +1,18 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button, Box, Typography, List } from '@mui/material';
 
 import { useAuthStore } from '../../store/authStore.ts';
 import { Api } from '../../server';
-import { UserListItem, ResizableSidebar, MessageItem, UserAvatar } from '../../components';
+import { UserListItem, ResizableSidebar, UserAvatar } from '../../components';
 import { Chat, Contact } from '../../server/types.ts';
+import { ChatView } from './ChatView.tsx';
 
 const Dashboard = () => {
   const navigate = useNavigate();
   const [contacts, setContacts] = useState<Contact[]>([]);
   const [chats, setChats] = useState<Chat[]>([]);
+  const [activeChat, setActiveChat] = useState<Chat | null>(null);
 
   const logOut = useAuthStore((store) => store.logOut);
   const user = useAuthStore((store) => store.user);
@@ -20,6 +22,7 @@ const Dashboard = () => {
       const contactsData = await Api.getContacts();
       const chatsData = await Api.getChats();
 
+      setActiveChat(chatsData[0] ?? null);
       setContacts(contactsData);
       setChats(chatsData);
     };
@@ -105,6 +108,8 @@ const Dashboard = () => {
                     avatarUrl={chat.avatarUrl ?? undefined}
                     backgroundColor={chat.backgroundColor ?? undefined}
                     initialsColor={chat.initialsColor ?? undefined}
+                    isSelected={activeChat?.id === chat.id}
+                    onClick={() => setActiveChat(chat)}
                   />
                 ))}
               </List>
@@ -144,16 +149,7 @@ const Dashboard = () => {
             marginX: 'auto',
           }}
         >
-          <MessageItem isOutgoing={false} text="loremlorem" timestamp="12:23" />
-          <MessageItem
-            isOutgoing={true}
-            text="loremlorem loremlorem loremlo remlo remloreml oremlore loremlo remlor emloreml orem"
-          />
-          <MessageItem
-            isOutgoing={true}
-            text="loremlorem loremlorem loremlo remlo remloreml oremlore loremlo remlor emloreml orem"
-            timestamp="12:23"
-          />
+          {activeChat && <ChatView chat={activeChat} />}
         </Box>
       </Box>
     </>
