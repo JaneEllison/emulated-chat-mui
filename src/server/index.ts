@@ -24,8 +24,8 @@ export const Api = {
       mappedChats.push({
         ...contact,
         status: chat.status,
-        lastMessageDate: lastMsg?.date ?? null,
-        lastMessageText: lastMsg?.message ?? null,
+        lastMessageDate: lastMsg?.date,
+        lastMessageText: lastMsg?.message,
       });
     });
 

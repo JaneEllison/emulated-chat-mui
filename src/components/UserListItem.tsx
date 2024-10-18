@@ -15,7 +15,7 @@ import { UserAvatar } from '../components';
 type UserListItemProps = {
   firstName: string;
   lastName: string;
-  text: string;
+  text?: string;
   date?: string;
   status?: ChatStatus;
   isSelected?: boolean;

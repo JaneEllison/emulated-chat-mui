@@ -15,8 +15,8 @@ export type ChatModel = {
 };
 
 export type Chat = Contact & {
-  lastMessageText: string | null;
-  lastMessageDate: string | null;
+  lastMessageText?: string;
+  lastMessageDate?: string;
   status: ChatStatus;
 };
 
